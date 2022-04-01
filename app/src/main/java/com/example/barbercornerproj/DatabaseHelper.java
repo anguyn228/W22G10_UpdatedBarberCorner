@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 
 import com.example.barbercornerproj.model.CustomerModel;
 import com.example.barbercornerproj.model.DataModel;
+import com.example.barbercornerproj.model.MessageModel;
 import com.example.barbercornerproj.model.StaffModel;
 
 import java.util.ArrayList;
@@ -40,6 +41,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_ADDRESS = "address";
     public static final String COL_AGE = "age";
 
+    // messages
+    public static final String MESSAGES_TABLE = "messages";
+    public static final String COL_mID = "id";
+    public static final String COL_SENDER = "sender";
+    public static final String COL_MESSAGE = "message";
+
     public DatabaseHelper(@Nullable Context context) {
         super(context, "barbershopData.db", null, 1);
     }
@@ -59,6 +66,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String customerTable = "CREATE TABLE " + CUSTOMER_TABLE + "(" + COL_USERID +
                 " TEXT, " + COL_ADDRESS + " TEXT, " + COL_AGE + " TEXT )";
         db.execSQL(customerTable);
+
+        String messageTable = "CREATE TABLE " + MESSAGES_TABLE + "(" + COL_mID +
+                " TEXT, " + COL_SENDER + " TEXT, " + COL_MESSAGE + " TEXT )";
+        db.execSQL(messageTable);
     }
 
     @Override
@@ -119,6 +130,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public boolean addMessage(MessageModel dataModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COL_mID, dataModel.getUserID());
+        cv.put(COL_SENDER, dataModel.getSender());
+        cv.put(COL_MESSAGE, dataModel.getMessage());
+
+        long insert = db.insert(MESSAGES_TABLE, null, cv);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     public ArrayList<StaffModel> allStaffs() {
         ArrayList<StaffModel> doctorModels = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
@@ -165,6 +192,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return returnList;
+    }
+
+    public ArrayList<MessageModel> retrieveAllMessages() {
+        ArrayList<MessageModel> messageModelArrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String query = "SELECT * FROM " + MESSAGES_TABLE;
+        Cursor c = sqLiteDatabase.rawQuery(query, null);
+
+        while (c.moveToNext()) {
+            String userid = c.getString(0);
+            String sender = c.getString(1);
+            String message = c.getString(2);
+
+            MessageModel messageModel = new MessageModel(userid, sender, message);
+            messageModelArrayList.add(messageModel);
+        }
+        return messageModelArrayList;
     }
 
     public Cursor getUserByUserName(String userName) {
