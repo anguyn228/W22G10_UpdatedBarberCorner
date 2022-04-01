@@ -1,21 +1,21 @@
 package com.example.barbercornerproj.model;
 
 public class MessageModel {
-    private String userID;
+    private int userID;
     private String sender;
     private String message;
 
-    public MessageModel(String userID, String sender, String message) {
+    public MessageModel(int userID, String sender, String message) {
         this.userID = userID;
         this.sender = sender;
         this.message = message;
     }
 
-    public String getUserID() {
+    public int getUserID() {
         return userID;
     }
 
-    public void setUserID(String userID) {
+    public void setUserID(int userID) {
         this.userID = userID;
     }
 

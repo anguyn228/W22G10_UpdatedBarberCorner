@@ -5,6 +5,19 @@
       <map>
         <entry key="..\:/Code/Android/BaberShop/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Code/Android/BaberShop/app/src/main/res/layout/activity_register.xml" value="0.4" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/drawable-v24/ic_baseline_age.xml" value="0.2265" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/drawable-v24/rounded_corner.xml" value="0.2265" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/drawable-v24/rounded_corner_light_blue.xml" value="0.2265" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.2265" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/font/quicksand.xml" value="0.284375" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/action_bar.xml" value="0.25416666666666665" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_booking.xml" value="0.11302083333333333" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_message.xml" value="0.25416666666666665" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_user_dash_board.xml" value="0.264" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/barber_row.xml" value="0.25416666666666665" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/message_ui.xml" value="0.25416666666666665" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/message_ui_item.xml" value="0.264" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/send_message.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/anguy/BarberCornerProj/app/src/main/res/drawable-v24/ic_baseline_name.xml" value="0.14739583333333334" />
         <entry key="..\:/Users/anguy/BarberCornerProj/app/src/main/res/layout/activity_main.xml" value="0.1171875" />
         <entry key="..\:/Users/anguy/BarberCornerProj/app/src/main/res/layout/activity_register.xml" value="0.12" />

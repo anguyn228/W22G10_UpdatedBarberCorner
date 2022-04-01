@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -44,8 +45,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // messages
     public static final String MESSAGES_TABLE = "messages";
     public static final String COL_mID = "id";
+    public static final String COL_USER_ID = "userId";
     public static final String COL_SENDER = "sender";
     public static final String COL_MESSAGE = "message";
+
+    //Booking Table
+    static class BOOKING_TABLE {
+        public static final String NAME = "BOOKING_TABLE";
+        public static final String COLUMN_ID = "bookingId";
+        public static final String COLUMN_CUSTOMER_ID = "customerId";
+        public static final String COLUMN_BARBER_ID = "barberId";
+        public static final String COLUMN_DATETIME = "bookingDateTime";
+    }
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, "barbershopData.db", null, 1);
@@ -59,7 +70,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         //Create staff table
         String staffTable = "CREATE TABLE " + STAFF_TABLE + "(" + COL_ID + "" +
-                " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_uID + "TEXT, " + COL_TITLE + " TEXT, " + COL_NAME + " TEXT, "  + " TEXT, " + COL_BIO + " TEXT, " + COL_SHIFT + " TEXT," + COL_LOCATION + "TEXT)" ;
+                " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_uID + " TEXT, " + COL_TITLE + " TEXT, " + COL_NAME + " TEXT, "  + " TEXT, " + COL_BIO + " TEXT, " + COL_SHIFT + " TEXT," + COL_LOCATION + " TEXT)" ;
         db.execSQL(staffTable);
 
         //create customer table
@@ -68,8 +79,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(customerTable);
 
         String messageTable = "CREATE TABLE " + MESSAGES_TABLE + "(" + COL_mID +
-                " TEXT, " + COL_SENDER + " TEXT, " + COL_MESSAGE + " TEXT )";
+                " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_USER_ID + " INTEGER, " + COL_SENDER + " TEXT, " + COL_MESSAGE + " TEXT )";
         db.execSQL(messageTable);
+
+        //Create booking table
+        String bookingTable =
+                "CREATE TABLE " + BOOKING_TABLE.NAME + "(" +
+                        BOOKING_TABLE.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        BOOKING_TABLE.COLUMN_CUSTOMER_ID + " INTEGER, " +
+                        BOOKING_TABLE.COLUMN_BARBER_ID + " INTEGER, " +
+                        BOOKING_TABLE.COLUMN_DATETIME + " DATETIME " +
+                        ")";
+        Log.i("DATABASE", bookingTable);
+        db.execSQL(bookingTable);
     }
 
     @Override
@@ -134,7 +156,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(COL_mID, dataModel.getUserID());
+        cv.put(COL_USER_ID, dataModel.getUserID());
         cv.put(COL_SENDER, dataModel.getSender());
         cv.put(COL_MESSAGE, dataModel.getMessage());
 
@@ -154,8 +176,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         while (c.moveToNext()) {
             String userid = c.getString(1);
-            String name = c.getString(2);
-            String title = c.getString(3);
+            String name = c.getString(3);
+            String title = c.getString(2);
             String location = c.getString(4);
             String shift = c.getString(5);
             String bio = c.getString(6);
@@ -201,11 +223,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Cursor c = sqLiteDatabase.rawQuery(query, null);
 
         while (c.moveToNext()) {
-            String userid = c.getString(0);
-            String sender = c.getString(1);
-            String message = c.getString(2);
+            int userId = c.getInt(1);
+            String sender = c.getString(2);
+            String message = c.getString(3);
 
-            MessageModel messageModel = new MessageModel(userid, sender, message);
+            MessageModel messageModel = new MessageModel(userId, sender, message);
             messageModelArrayList.add(messageModel);
         }
         return messageModelArrayList;
@@ -216,5 +238,50 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "SELECT * FROM " + USER_TABLE + " WHERE " + COLUMN_USER_NAME + " = " + userName;
         Cursor cursor = getReadableDatabase().rawQuery(query, null);
         return cursor;
+    }
+
+    public ArrayList<MessageModel> retrieveAllMessagesByUserId(int id) {
+        ArrayList<MessageModel> messageModelArrayList = new ArrayList<>();
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String query = "SELECT * FROM " + MESSAGES_TABLE + " WHERE " + COL_USER_ID + " = " + id;
+        Cursor c = sqLiteDatabase.rawQuery(query, null);
+
+        while (c.moveToNext()) {
+            int userId = c.getInt(1);
+            String sender = c.getString(2);
+            String message = c.getString(3);
+
+            MessageModel messageModel = new MessageModel(userId, sender, message);
+            messageModelArrayList.add(messageModel);
+        }
+        return messageModelArrayList;
+    }
+
+    /*BOOKING TABLE*/
+    public boolean addBooking(int userId, int barberId, int day, int month, int year, int hour, int minute) {
+        String sDay = String.format("%02d", day);
+        String sMonth = String.format("%02d", month);
+        String sYear = String.format("%04d", year);
+        String sHour = String.format("%02d", hour);
+        String sMinute = String.format("%02d", minute);
+        String dateTime = sYear + "-" + sMonth + "-" + sDay + " " + sHour + ":" + sMinute + ":00";
+        dateTime = "'" + dateTime + "'";
+        String query =
+                "INSERT INTO " + BOOKING_TABLE.NAME + "(" +
+                        BOOKING_TABLE.COLUMN_CUSTOMER_ID + ", " +
+                        BOOKING_TABLE.COLUMN_BARBER_ID + ", " +
+                        BOOKING_TABLE.COLUMN_DATETIME + ")" +
+                        " VALUES(" + userId + ", " + barberId + ", " + dateTime + ")";
+        System.out.println(query);
+        getWritableDatabase().execSQL(query);
+        return true;
+    }
+
+    //  For testing
+    public void insertTestBarber() {
+        String query = "INSERT OR IGNORE INTO " + STAFF_TABLE +
+                "(" + COL_ID + ", " + COL_NAME + ")" +
+                "VALUES(0, \"Chris Evans\"), (1, 'Chris Hemsworth') , (2, 'Paul Rudd '), (3, 'Benedict Cumberbatch')";
+        getWritableDatabase().execSQL(query);
     }
 }

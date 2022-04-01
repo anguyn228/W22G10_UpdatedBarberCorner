@@ -14,6 +14,9 @@ public class MainActivity extends AppCompatActivity {
     //  For debug
     private static final String LOG_TAG = "SIGN IN";
 
+    //  For send data through intent
+    public static final String TAG_USER_ID = "userId";
+
     Button btnRegister, btnSignIn;
     EditText edtUserName, edtPassword;
     //private ArrayList<DataModel> users;
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         databaseHelper = new DatabaseHelper(this);
+        databaseHelper.insertTestBarber();
 
         edtUserName = (EditText) findViewById(R.id.username);
         edtPassword = (EditText) findViewById(R.id.password);
@@ -97,12 +101,12 @@ public class MainActivity extends AppCompatActivity {
 
         int roleColumnIndex = user.getColumnIndex(DatabaseHelper.COLUMN_TITLE);
         String roleFromDB = user.getString(roleColumnIndex);
-        Log.i(LOG_TAG, "rold from database: " + roleFromDB);
-        signInByRole(roleFromDB);
+        Log.i(LOG_TAG, "role from database: " + roleFromDB);
+        signInByRole(user.getColumnIndex(DatabaseHelper.COLUMN_ID), roleFromDB);
         return true;
     }
 
-    private void signInByRole(String role) {
+    private void signInByRole(int userId, String role) {
         switch (role.toLowerCase()) {
             case "admin":
                 startActivity(new Intent(MainActivity.this, AdminDashBoard.class)
@@ -111,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case "customer":
                 startActivity(new Intent(MainActivity.this, UserDashBoard.class)
-                        .putExtra("userid", USERID)
+                        .putExtra(TAG_USER_ID, userId)
                         .putExtra("name", NAME));
                 finish();
                 break;
@@ -124,5 +128,10 @@ public class MainActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    private void startMessageActivity() {
+        Intent intent = new Intent(this, Message.class);
+        startActivity(intent);
     }
 }
