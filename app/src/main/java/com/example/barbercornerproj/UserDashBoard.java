@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class UserDashBoard extends AppCompatActivity {
 
-    private Button btnBook, btnMessage;
+    private Button btnBook, btnMessage, btnViewBarber;
     private int userId;
 
     @Override
@@ -19,8 +19,10 @@ public class UserDashBoard extends AppCompatActivity {
 
         btnBook = findViewById(R.id.btn_book);
         btnMessage = findViewById(R.id.btn_message);
+        btnViewBarber = findViewById(R.id.btn_view_barber);
 
         userId = getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
+        System.out.println("USER DASHBOARD ID: " + userId);
 
         btnBook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +37,15 @@ public class UserDashBoard extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserDashBoard.this, Message.class);
+                intent.putExtra(MainActivity.TAG_USER_ID, userId);
+                startActivity(intent);
+            }
+        });
+
+        btnViewBarber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserDashBoard.this, BarberViewActivity.class);
                 intent.putExtra(MainActivity.TAG_USER_ID, userId);
                 startActivity(intent);
             }

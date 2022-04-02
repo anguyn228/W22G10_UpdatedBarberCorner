@@ -16,6 +16,15 @@ public class DataModel {
         this.title = title;
     }
 
+    public DataModel(int id, String name, String title, String userId, String userName, String password) {
+        this.id = id;
+        this.name = name;
+        this.title = title;
+        this.userId = userId;
+        this.userName = userName;
+        this.password = password;
+    }
+
     public DataModel(int id, String name, String title, String userId, String password) {
         this.id = id;
         this.name = name;

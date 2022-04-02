@@ -1,14 +1,19 @@
 package com.example.barbercornerproj.model;
 
 public class MessageModel {
+    public static final String MESSAGE_TYPE_SEND = "send";
+    public static final String MESSAGE_TYPE_RECEIVE = "receive";
+
     private int userID;
     private String sender;
     private String message;
+    private String messageType;
 
-    public MessageModel(int userID, String sender, String message) {
+    public MessageModel(int userID, String sender, String message, String messageType) {
         this.userID = userID;
         this.sender = sender;
         this.message = message;
+        this.messageType = messageType;
     }
 
     public int getUserID() {
@@ -33,5 +38,13 @@ public class MessageModel {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
     }
 }

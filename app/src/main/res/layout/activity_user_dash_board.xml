@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Booking"
+        android:textColor="@color/white"
         android:id="@+id/btn_book"
         android:layout_centerInParent="true"/>
 
@@ -19,6 +20,16 @@
         android:text="Message"
         android:layout_below="@id/btn_book"
         android:id="@+id/btn_message"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Barber"
+        android:textColor="@color/white"
+        android:layout_below="@id/btn_message"
+        android:id="@+id/btn_view_barber"
         android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

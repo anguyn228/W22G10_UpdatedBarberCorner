@@ -4,17 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="15dp"
     tools:context=".Message">
 
     <include
         layout="@layout/action_bar"
         android:id="@+id/action_bar"/>
 
-    <androidx.recyclerview.widget.RecyclerView
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_below="@id/action_bar"
-        android:id="@+id/messageList"
+        android:id="@+id/message_nav_button">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sent"
+            android:paddingVertical="3dp"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/white"
+            android:id="@+id/txt_view_sent"
+            android:background="@drawable/rounded_corner_light_blue"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Received"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@id/txt_view_sent"
+            android:paddingVertical="3dp"
+            android:paddingHorizontal="20dp"
+            android:textColor="@color/light_blue"
+            android:id="@+id/txt_view_received"
+            android:background="@drawable/rounded_corner"/>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/message_list_sent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:layout_below="@id/message_nav_button"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="20dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/message_list_received"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/message_nav_button"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="20dp"
+        android:visibility="invisible"/>
 
 </RelativeLayout>

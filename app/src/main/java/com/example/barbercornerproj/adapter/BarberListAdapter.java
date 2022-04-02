@@ -1,6 +1,8 @@
 package com.example.barbercornerproj.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,12 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barbercornerproj.DatabaseHelper;
+import com.example.barbercornerproj.MainActivity;
 import com.example.barbercornerproj.R;
 import com.example.barbercornerproj.model.MessageModel;
 import com.example.barbercornerproj.model.StaffModel;
@@ -26,11 +31,11 @@ public class BarberListAdapter extends RecyclerView.Adapter<BarberListAdapter.Vi
     private ArrayList<StaffModel> barberList;
     private DatabaseHelper databaseHelper;
 
-    public BarberListAdapter(Context context) {
+    public BarberListAdapter(Context context, @NonNull ArrayList<StaffModel> barberList) {
         this.context = context;
         databaseHelper = new DatabaseHelper(context);
         databaseHelper.insertTestBarber();
-        barberList = databaseHelper.allStaffs();
+        this.barberList = barberList;
     }
 
     @NonNull
@@ -68,6 +73,7 @@ public class BarberListAdapter extends RecyclerView.Adapter<BarberListAdapter.Vi
                     LayoutInflater inflater = LayoutInflater.from(context);
                     View sendMessageView = inflater.inflate(R.layout.send_message, null);
                     AlertDialog dialog = builder.setView(sendMessageView).create();
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
                     Button sendButton = sendMessageView.findViewById(R.id.btn_send);
                     EditText messageInput = sendMessageView.findViewById(R.id.edt_send_message);
@@ -75,13 +81,14 @@ public class BarberListAdapter extends RecyclerView.Adapter<BarberListAdapter.Vi
                         @Override
                         public void onClick(View view) {
                             String message = messageInput.getText().toString();
-                            int firstId = 1;
-                            String userName = "NAME";
+                            int userId = ((AppCompatActivity) context).getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
+                            String userName = databaseHelper.getUserById(userId).getName();
                             StaffModel staffModel = barberList.get(getAdapterPosition());
-                            MessageModel messageModel = new MessageModel(firstId, userName, message);
+                            MessageModel messageModel = new MessageModel(userId, staffModel.getName(), message, MessageModel.MESSAGE_TYPE_SEND);
                             databaseHelper.addMessage(messageModel);
-                            MessageModel messageModel1 = new MessageModel(staffModel.getId(), userName, message);
+                            MessageModel messageModel1 = new MessageModel(staffModel.getId(), userName, message, MessageModel.MESSAGE_TYPE_RECEIVE);
                             databaseHelper.addMessage(messageModel1);
+                            Toast.makeText(context, "Message sent.", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         }
                     });

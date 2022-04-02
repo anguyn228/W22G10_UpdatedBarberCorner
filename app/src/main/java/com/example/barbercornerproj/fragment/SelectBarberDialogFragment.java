@@ -82,4 +82,10 @@ public class SelectBarberDialogFragment extends DialogFragment {
     public void setBarberDialogListener(SelectBarberDialogListener barberDialogListener) {
         this.barberDialogListener = barberDialogListener;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        databaseHelper.close();
+    }
 }

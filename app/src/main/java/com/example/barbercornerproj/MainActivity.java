@@ -52,13 +52,14 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
 
-            if (userName.equalsIgnoreCase("admin") && password.equals("admin")) {
+            signIn(userName, password);
+            /*if (userName.equalsIgnoreCase("admin") && password.equals("admin")) {
                 // default user
-                startActivity(new Intent(MainActivity.this, UserDashBoard.class));
+                startActivity(new Intent(MainActivity.this, A.class));
                 finish();
             } else {
                 signIn(userName, password);
-            }
+            }*/
         });
     }
 
@@ -102,24 +103,30 @@ public class MainActivity extends AppCompatActivity {
         int roleColumnIndex = user.getColumnIndex(DatabaseHelper.COLUMN_TITLE);
         String roleFromDB = user.getString(roleColumnIndex);
         Log.i(LOG_TAG, "role from database: " + roleFromDB);
-        signInByRole(user.getColumnIndex(DatabaseHelper.COLUMN_ID), roleFromDB);
+        System.out.println("ROLE: " + roleFromDB);
+        int columnIdIndex = user.getColumnIndex(DatabaseHelper.COLUMN_ID);
+        signInByRole(user.getInt(columnIdIndex), roleFromDB);
         return true;
     }
 
     private void signInByRole(int userId, String role) {
+        System.out.println(userId);
         switch (role.toLowerCase()) {
             case "admin":
+                System.out.println("Activity admin");
                 startActivity(new Intent(MainActivity.this, AdminDashBoard.class)
                         .putExtra("userid", USERID));
                 finish();
                 break;
             case "customer":
-                startActivity(new Intent(MainActivity.this, UserDashBoard.class)
-                        .putExtra(TAG_USER_ID, userId)
-                        .putExtra("name", NAME));
+                System.out.println("Activity customer");
+                Intent intent = new Intent(MainActivity.this, UserDashBoard.class);
+                intent.putExtra(TAG_USER_ID, userId);
+                startActivity(intent);
                 finish();
                 break;
             case "barber":
+                System.out.println("Activity barber");
                 startActivity(new Intent(MainActivity.this, StaffDashBoard.class)
                         .putExtra("userid", USERID));
                 finish();
@@ -128,6 +135,12 @@ public class MainActivity extends AppCompatActivity {
             default:
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseHelper.close();
     }
 
     private void startMessageActivity() {

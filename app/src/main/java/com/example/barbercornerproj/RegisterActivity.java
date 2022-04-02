@@ -86,4 +86,10 @@ public class RegisterActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseHelper.close();
+    }
 }

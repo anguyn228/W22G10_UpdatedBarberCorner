@@ -18,14 +18,12 @@ import java.util.ArrayList;
 public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.ViewHolder> {
 
     private Context context;
-    private DatabaseHelper databaseHelper;
     private ArrayList<MessageModel> messageList;
     private int userId = 1;
 
-    public MessageListAdapter(Context context) {
+    public MessageListAdapter(Context context, @NonNull ArrayList<MessageModel> messageList) {
         this.context = context;
-        databaseHelper= new DatabaseHelper(context);
-        messageList = databaseHelper.retrieveAllMessagesByUserId(userId);
+        this.messageList = messageList;
     }
 
     @NonNull

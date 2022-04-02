@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.barbercornerproj.fragment.SelectBarberDialogFragment;
+import com.example.barbercornerproj.model.NotifyModel;
 import com.example.barbercornerproj.model.StaffModel;
 
 import java.util.Calendar;
@@ -128,6 +129,12 @@ public class BookingActivity extends AppCompatActivity implements SelectBarberDi
                 if (!validateInput()) return;
                 databaseHelper.addBooking(userId, barber.getId(), mDay, mMonth, mYear, mHour, mMinute);
                 Toast.makeText(BookingActivity.this, "Booking added", Toast.LENGTH_SHORT).show();
+
+                String notifyTitle = "New booking from " + databaseHelper.getUserById(userId).getUserName();
+                String notifyDescription = "Barber: " + barber.getName() +
+                        ", Date: " + mDay + "-" + mMonth + "-" + mYear + ", Time: " + mHour + ":" + mMinute;
+                NotifyModel notifyModel = new NotifyModel(notifyTitle, notifyDescription, DatabaseHelper.ADMIN_USER_ID);
+                databaseHelper.addNotify(notifyModel);
                 finish();
             }
         });
@@ -151,5 +158,11 @@ public class BookingActivity extends AppCompatActivity implements SelectBarberDi
             return false;
         }
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseHelper.close();
     }
 }
