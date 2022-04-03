@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BarberCornerProj">
         <activity
+            android:name=".UpdateUserActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddandUpdateUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".BarberViewActivity"
             android:exported="false" />
         <activity
