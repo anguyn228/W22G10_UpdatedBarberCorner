@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BarberCornerProj</string>
+    <string name="ChooseHairStyles">Choose a Hair Style</string>
+    <string name="Hairstyletitle">Choose a hairstyle</string>
+</resources>
