@@ -13,7 +13,7 @@
             android:name=".UpdateUserActivity"
             android:exported="false" />
         <activity
-            android:name=".AddandUpdateUserActivity"
+            android:name=".AddAndUpdateUserActivity"
             android:exported="false" />
         <activity
             android:name=".BarberViewActivity"

@@ -226,13 +226,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             // loop through the cursor and put them into the return list
             do {
-                int ID = cursor.getInt(0);
-                String Name = cursor.getString(1);
-                String Title = cursor.getString(2);
-                String UserID = cursor.getString(3);
-                String Password = cursor.getString(4);
+                String userName = cursor.getString(0);
+                int id = cursor.getInt(1);
+                String name = cursor.getString(2);
+                String title = cursor.getString(3);
+                String userId = cursor.getString(4);
+                String password = cursor.getString(5);
 
-                DataModel newUser = new DataModel(ID, Name, Title, UserID, Password);
+                DataModel newUser = new DataModel(id, name, title, userId, userName, password);
+                returnList.add(newUser);
+            }
+            while (cursor.moveToNext());
+        } else {
+            // error -> don't add anything to the list
+        }
+        // close the cursor and db after using them
+        cursor.close();
+        db.close();
+        return returnList;
+    }
+
+    public ArrayList<DataModel> retrieveAllBarber() {
+        ArrayList<DataModel> returnList = new ArrayList<>();
+
+        String queryString = "SELECT * FROM " + USER_TABLE + " WHERE " + COLUMN_TITLE + " = 'barber'";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryString, null);
+        if (cursor.moveToFirst()) {
+            // loop through the cursor and put them into the return list
+            do {
+                String userName = cursor.getString(0);
+                int id = cursor.getInt(1);
+                String name = cursor.getString(2);
+                String title = cursor.getString(3);
+                String userId = cursor.getString(4);
+                String password = cursor.getString(5);
+
+                DataModel newUser = new DataModel(id, name, title, userId, userName, password);
                 returnList.add(newUser);
             }
             while (cursor.moveToNext());

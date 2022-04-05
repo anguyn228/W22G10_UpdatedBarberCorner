@@ -23,7 +23,7 @@ public class BarberViewActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.rel_barber_list);
 
-        BarberListAdapter adapter = new BarberListAdapter(this, databaseHelper.allStaffs());
+        BarberListAdapter adapter = new BarberListAdapter(this, databaseHelper.retrieveAllBarber());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }

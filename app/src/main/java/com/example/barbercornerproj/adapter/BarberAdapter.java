@@ -12,21 +12,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barbercornerproj.R;
 import com.example.barbercornerproj.fragment.SelectBarberDialogFragment;
+import com.example.barbercornerproj.model.DataModel;
 import com.example.barbercornerproj.model.StaffModel;
 
 import java.util.ArrayList;
 
 public class BarberAdapter extends RecyclerView.Adapter<BarberAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<StaffModel> barberList;
+    private ArrayList<DataModel> barberList;
     private SelectBarberDialogFragment dialogFragment;
 
-    public BarberAdapter(Context context, ArrayList<StaffModel> barberList) {
+    public BarberAdapter(Context context, ArrayList<DataModel> barberList) {
         this.context = context;
         this.barberList = barberList;
     }
 
-    public BarberAdapter(Context context, ArrayList<StaffModel> barberList, SelectBarberDialogFragment dialogFragment) {
+    public BarberAdapter(Context context, ArrayList<DataModel> barberList, SelectBarberDialogFragment dialogFragment) {
         this.context = context;
         this.barberList = barberList;
         this.dialogFragment = dialogFragment;
@@ -60,11 +61,11 @@ public class BarberAdapter extends RecyclerView.Adapter<BarberAdapter.ViewHolder
         this.context = context;
     }
 
-    public ArrayList<StaffModel> getBarberList() {
+    public ArrayList<DataModel> getBarberList() {
         return barberList;
     }
 
-    public void setBarberList(ArrayList<StaffModel> barberList) {
+    public void setBarberList(ArrayList<DataModel> barberList) {
         this.barberList = barberList;
     }
 

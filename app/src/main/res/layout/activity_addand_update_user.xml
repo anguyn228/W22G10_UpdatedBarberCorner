@@ -4,24 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddandUpdateUserActivity">
+    tools:context=".AddAndUpdateUserActivity">
 
 
     <EditText
-        android:id="@+id/editTextUserName1"
+        android:id="@+id/editTextUserName"
         android:layout_width="386dp"
         android:layout_height="59dp"
         android:layout_marginTop="28dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Name"
+        android:hint="Username"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.36"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editTextPassword1"
+        android:id="@+id/editTextPassword"
         android:layout_width="388dp"
         android:layout_height="64dp"
         android:layout_marginTop="24dp"
@@ -31,33 +31,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.515"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUserName1" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextUserName" />
 
     <EditText
-        android:id="@+id/editTextTitle"
+        android:id="@+id/editTextName"
         android:layout_width="391dp"
         android:layout_height="67dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Title"
+        android:hint="Barber name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword1" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword" />
 
-    <EditText
-        android:id="@+id/editTextUserId"
-        android:layout_width="378dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="User Id"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTitle" />
 
     <Button
+        android:textColor="@color/white"
         android:id="@+id/buttonAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -65,9 +55,10 @@
         android:layout_marginTop="32dp"
         android:text="Add"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUserId" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
     <Button
+        android:textColor="@color/white"
         android:id="@+id/buttonView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,9 +66,10 @@
         android:layout_marginTop="32dp"
         android:text="View"
         app:layout_constraintStart_toEndOf="@+id/buttonAdd"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUserId" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
     <Button
+        android:textColor="@color/white"
         android:id="@+id/buttonUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -85,7 +77,7 @@
         android:layout_marginEnd="28dp"
         android:text="Update"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUserId" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
     <ListView
         android:id="@+id/userListView"

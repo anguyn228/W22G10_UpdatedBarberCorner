@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.barbercornerproj.DatabaseHelper;
 import com.example.barbercornerproj.MainActivity;
 import com.example.barbercornerproj.R;
+import com.example.barbercornerproj.model.DataModel;
 import com.example.barbercornerproj.model.MessageModel;
 import com.example.barbercornerproj.model.StaffModel;
 
@@ -28,10 +29,10 @@ import java.util.ArrayList;
 public class BarberListAdapter extends RecyclerView.Adapter<BarberListAdapter.ViewHolder>{
 
     private Context context;
-    private ArrayList<StaffModel> barberList;
+    private ArrayList<DataModel> barberList;
     private DatabaseHelper databaseHelper;
 
-    public BarberListAdapter(Context context, @NonNull ArrayList<StaffModel> barberList) {
+    public BarberListAdapter(Context context, @NonNull ArrayList<DataModel> barberList) {
         this.context = context;
         databaseHelper = new DatabaseHelper(context);
         databaseHelper.insertTestBarber();
@@ -83,7 +84,7 @@ public class BarberListAdapter extends RecyclerView.Adapter<BarberListAdapter.Vi
                             String message = messageInput.getText().toString();
                             int userId = ((AppCompatActivity) context).getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
                             String userName = databaseHelper.getUserById(userId).getName();
-                            StaffModel staffModel = barberList.get(getAdapterPosition());
+                            DataModel staffModel = barberList.get(getAdapterPosition());
                             MessageModel messageModel = new MessageModel(userId, staffModel.getName(), message, MessageModel.MESSAGE_TYPE_SEND);
                             databaseHelper.addMessage(messageModel);
                             MessageModel messageModel1 = new MessageModel(staffModel.getId(), userName, message, MessageModel.MESSAGE_TYPE_RECEIVE);

@@ -17,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.barbercornerproj.fragment.SelectBarberDialogFragment;
+import com.example.barbercornerproj.model.DataModel;
 import com.example.barbercornerproj.model.NotifyModel;
 import com.example.barbercornerproj.model.StaffModel;
 
@@ -34,7 +35,7 @@ public class BookingActivity extends AppCompatActivity implements SelectBarberDi
     private int mHour, mMinute, mSecond;
     private CalendarView calendarView;
     private DatabaseHelper databaseHelper = new DatabaseHelper(this);
-    private StaffModel barber;
+    private DataModel barber;
 
     private int userId = 0;
 
@@ -141,7 +142,7 @@ public class BookingActivity extends AppCompatActivity implements SelectBarberDi
     }
 
     @Override
-    public void onBarberClick(DialogFragment dialogFragment, StaffModel clickedBarber) {
+    public void onBarberClick(DialogFragment dialogFragment, DataModel clickedBarber) {
         //System.out.println("Name: " + clickedBarber.getName());
         this.barber = clickedBarber;
         txtBarberName.setText(barber.getName());

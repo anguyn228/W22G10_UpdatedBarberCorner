@@ -18,12 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.barbercornerproj.DatabaseHelper;
 import com.example.barbercornerproj.R;
 import com.example.barbercornerproj.adapter.BarberAdapter;
+import com.example.barbercornerproj.model.DataModel;
 import com.example.barbercornerproj.model.StaffModel;
 
 public class SelectBarberDialogFragment extends DialogFragment {
 
     public interface SelectBarberDialogListener {
-        void onBarberClick(DialogFragment dialogFragment, StaffModel clickedBarber);
+        void onBarberClick(DialogFragment dialogFragment, DataModel clickedBarber);
     }
 
     private RecyclerView relBarberSelect;
@@ -44,7 +45,7 @@ public class SelectBarberDialogFragment extends DialogFragment {
 
         //  Init Recycler view
         relBarberSelect = barberSelectView.findViewById(R.id.rel_barber_select);
-        BarberAdapter barberAdapter = new BarberAdapter(getContext(), databaseHelper.allStaffs(), this);
+        BarberAdapter barberAdapter = new BarberAdapter(getContext(), databaseHelper.retrieveAllBarber(), this);
         relBarberSelect.setAdapter(barberAdapter);
         relBarberSelect.setLayoutManager(new LinearLayoutManager(getContext()));
 

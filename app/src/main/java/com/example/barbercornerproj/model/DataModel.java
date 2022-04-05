@@ -48,7 +48,6 @@ public class DataModel {
         return  " ID: " + id +
                 "  Name:'" + name + '\'' +
                 "  Title: '" + title + '\'' +
-                "  UserId: '" + userId + '\'' +
                 "  Password:'" + password + '\'';
     }
 
