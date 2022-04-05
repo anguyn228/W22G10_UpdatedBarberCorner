@@ -42,4 +42,14 @@
         android:text="@string/ChooseHairStyles"
         android:textColor="@color/white" />
 
+    <Button
+        android:id="@+id/hairProducts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hairStyles"
+
+        android:layout_centerHorizontal="true"
+        android:text="@string/Shop_hair"
+        android:textColor="@color/white" />
+
 </RelativeLayout>

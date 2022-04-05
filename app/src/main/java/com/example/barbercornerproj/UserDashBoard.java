@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class UserDashBoard extends AppCompatActivity {
 
-    private Button btnBook, btnMessage, btnViewBarber,btnHairStyle;
+    private Button btnBook, btnMessage, btnViewBarber,btnHairStyle,btnShopHairProduct;
     private int userId;
 
     @Override
@@ -21,6 +21,7 @@ public class UserDashBoard extends AppCompatActivity {
         btnMessage = findViewById(R.id.btn_message);
         btnViewBarber = findViewById(R.id.btn_view_barber);
         btnHairStyle=findViewById(R.id.hairStyles);
+        btnShopHairProduct=findViewById(R.id.hairProducts);
 
         userId = getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
         System.out.println("USER DASHBOARD ID: " + userId);
@@ -60,5 +61,16 @@ public class UserDashBoard extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        btnShopHairProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserDashBoard.this, ShopHairProductActivity.class);
+                intent.putExtra(MainActivity.TAG_USER_ID, userId);
+                startActivity(intent);
+            }
+        });
+
+
     }
 }
