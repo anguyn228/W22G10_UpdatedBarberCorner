@@ -1,17 +1,25 @@
 package com.example.barbercornerproj;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.barbercornerproj.adapter.MessageListAdapter;
+import com.example.barbercornerproj.model.DataModel;
 import com.example.barbercornerproj.model.MessageModel;
 
 import java.util.ArrayList;
@@ -41,12 +49,39 @@ public class Message extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ArrayList<MessageModel> sentMessageList = databaseHelper.retrieveAllSentMessageByUserId(userId);
-        MessageListAdapter adapterSent = new MessageListAdapter(this, sentMessageList);
+        MessageListAdapter adapterSent = new MessageListAdapter(this, sentMessageList, null, MessageListAdapter.MESSAGE_LIST_RECEIVE);
         recyclerViewSent.setAdapter(adapterSent);
         recyclerViewSent.setLayoutManager(new LinearLayoutManager(this));
 
         ArrayList<MessageModel> receivedMessageList = databaseHelper.retrieveAllReceivedMessageByUserId(userId);
-        MessageListAdapter adapterReceived = new MessageListAdapter(this, receivedMessageList);
+        MessageListAdapter.ItemClickListener itemClickListener = new MessageListAdapter.ItemClickListener() {
+            @Override
+            public void onItemClickListener(int position, MessageModel messageModel) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Message.this);
+                LayoutInflater inflater = LayoutInflater.from(Message.this);
+                View sendMessageView = inflater.inflate(R.layout.send_message, null);
+                AlertDialog dialog = builder.setView(sendMessageView).create();
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+                Button sendButton = sendMessageView.findViewById(R.id.btn_send);
+                EditText messageInput = sendMessageView.findViewById(R.id.edt_send_message);
+                sendButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        String message = messageInput.getText().toString();
+                        int userId = ((AppCompatActivity) Message.this).getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
+                        String userName = databaseHelper.getUserById(userId).getName();
+                        DataModel receiver = databaseHelper.getUserById(messageModel.getSenderId());
+                        MessageModel messageModel = new MessageModel(userId, receiver.getId(), message);
+                        databaseHelper.addMessage(messageModel);
+                        Toast.makeText(Message.this, "Message sent.", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+            }
+        };
+        MessageListAdapter adapterReceived = new MessageListAdapter(this, receivedMessageList, itemClickListener, MessageListAdapter.MESSAGE_LIST_SEND);
         recyclerViewReceived.setAdapter(adapterReceived);
         recyclerViewReceived.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -100,5 +135,9 @@ public class Message extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         databaseHelper.close();
+    }
+
+    private void showSendMessageDialog() {
+
     }
 }

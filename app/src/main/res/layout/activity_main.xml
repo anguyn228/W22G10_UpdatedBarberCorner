@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/logo1"
-    tools:context=".MainActivity">
+    android:background="#fce8a1"
+    tools:context=".MainActivity"
+    android:paddingHorizontal="25dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -32,8 +33,8 @@
         android:drawablePadding="20dp"
         android:hint="User name"
         android:padding="20dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColor="#FF3D3D4E"
+        android:textColorHint="#FF3D3D4E" />
 
     <EditText
         android:id="@+id/password"
@@ -50,8 +51,8 @@
         android:hint="Password"
         android:inputType="textPassword"
         android:padding="20dp"
-        android:textColor="@color/white"
-        android:textColorHint="@color/white" />
+        android:textColor="#FF3D3D4E"
+        android:textColorHint="#FF3D3D4E" />
 
 
     <com.google.android.material.button.MaterialButton
@@ -60,10 +61,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/password"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="20dp"
         android:layout_marginTop="74dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:backgroundTint="@color/design_default_color_secondary"
         android:text="LOGIN" />
 
@@ -73,11 +72,16 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/loginbtn1"
         android:layout_centerHorizontal="true"
-
-        android:layout_marginTop="34dp"
-        android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
         android:backgroundTint="@color/design_default_color_secondary"
         android:text="Not yet have an account?" />
+
+    <ImageView
+        android:layout_marginHorizontal="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/logo_cut"
+        android:layout_below="@id/signupbtnreturn"
+        android:layout_marginTop="30dp"/>
 
 </RelativeLayout>

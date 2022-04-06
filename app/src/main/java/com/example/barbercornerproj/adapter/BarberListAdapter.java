@@ -85,10 +85,8 @@ public class BarberListAdapter extends RecyclerView.Adapter<BarberListAdapter.Vi
                             int userId = ((AppCompatActivity) context).getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
                             String userName = databaseHelper.getUserById(userId).getName();
                             DataModel staffModel = barberList.get(getAdapterPosition());
-                            MessageModel messageModel = new MessageModel(userId, staffModel.getName(), message, MessageModel.MESSAGE_TYPE_SEND);
+                            MessageModel messageModel = new MessageModel(userId, staffModel.getId(), message);
                             databaseHelper.addMessage(messageModel);
-                            MessageModel messageModel1 = new MessageModel(staffModel.getId(), userName, message, MessageModel.MESSAGE_TYPE_RECEIVE);
-                            databaseHelper.addMessage(messageModel1);
                             Toast.makeText(context, "Message sent.", Toast.LENGTH_SHORT).show();
                             dialog.dismiss();
                         }

@@ -105,6 +105,8 @@ public class BookingActivity extends AppCompatActivity implements SelectBarberDi
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+                                mHour = hour;
+                                mMinute = minute;
                                 txtSelectTime.setText(hour + ":" + minute);
                                 txtSelectTime.setTextColor(getResources().getColor(R.color.white));
                                 txtSelectTime.setBackground(getResources().getDrawable(R.drawable.rounded_corner_light_blue));
@@ -134,8 +136,9 @@ public class BookingActivity extends AppCompatActivity implements SelectBarberDi
                 String notifyTitle = "New booking from " + databaseHelper.getUserById(userId).getUserName();
                 String notifyDescription = "Barber: " + barber.getName() +
                         ", Date: " + mDay + "-" + mMonth + "-" + mYear + ", Time: " + mHour + ":" + mMinute;
-                NotifyModel notifyModel = new NotifyModel(notifyTitle, notifyDescription, DatabaseHelper.ADMIN_USER_ID);
+                NotifyModel notifyModel = new NotifyModel(notifyTitle, notifyDescription, barber.getId());
                 databaseHelper.addNotify(notifyModel);
+                System.out.println(notifyDescription);
                 finish();
             }
         });

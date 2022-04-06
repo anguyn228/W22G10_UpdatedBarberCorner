@@ -9,6 +9,8 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.example.barbercornerproj.Database.OrderHelper;
+import com.example.barbercornerproj.model.BookingModel;
 import com.example.barbercornerproj.model.CustomerModel;
 import com.example.barbercornerproj.model.DataModel;
 import com.example.barbercornerproj.model.MessageModel;
@@ -45,10 +47,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // messages
     public static final String MESSAGES_TABLE = "messages";
-    public static final String COL_MESSAGE_TYPE = "messageType";
-    public static final String COL_mID = "id";
-    public static final String COL_USER_ID = "userId";
-    public static final String COL_SENDER = "sender";
+    public static final String COL_MESSAGE_ID = "messageId";
+    public static final String COL_SENDER_ID = "senderId";
+    public static final String COL_RECEIVE_ID = "receiveId";
     public static final String COL_MESSAGE = "message";
 
     //  Notify
@@ -60,7 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_RECEIVE_USER_NAME = "receiveUserName";
     public static final String COL_NOTIFY_STATUS = "notifyStatus";
     public static final String STATUS_NOT_SEND = "Not send";
-    public static final String STATUS_SENT = "'Sent'";
+    public static final String STATUS_SENT = "Sent";
 
     public static final int ADMIN_USER_ID = 1;
 
@@ -96,8 +97,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 " TEXT, " + COL_ADDRESS + " TEXT, " + COL_AGE + " TEXT )";
         db.execSQL(customerTable);
 
-        String messageTable = "CREATE TABLE " + MESSAGES_TABLE + "(" + COL_mID +
-                " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_USER_ID + " INTEGER, " + COL_SENDER + " TEXT, " + COL_MESSAGE + " TEXT, " + COL_MESSAGE_TYPE + " TEXT)";
+        String messageTable =
+                "CREATE TABLE " + MESSAGES_TABLE + "(" +
+                        COL_MESSAGE_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                        COL_SENDER_ID + " INTEGER, " +
+                        COL_RECEIVE_ID + " TEXT, " +
+                        COL_MESSAGE + " TEXT" +
+                        ")";
         db.execSQL(messageTable);
 
         //Create booking table
@@ -120,6 +126,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         COL_RECEIVE_USER_ID + " INTEGER," +
                         COL_NOTIFY_STATUS + " TEXT)";
         db.execSQL(notifyTable);
+
+        String SQL_TABLE=" CREATE TABLE " + OrderHelper.CART_TABLE + " ("
+                + OrderHelper.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + OrderHelper.COLUMN_NAME +" TEXT NOT NULL,"
+                + OrderHelper.COLUMN_QUANTITY +" TEXT NOT NULL,"
+                + OrderHelper.COLUMN_PRICE +" TEXT NOT NULL);";
+        db.execSQL(SQL_TABLE);
     }
 
     @Override
@@ -129,6 +142,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE if exists " + STAFF_TABLE);
 
         onCreate(db);
+    }
+
+    public boolean addProduct(String name, String quantity, String price) {
+        SQLiteDatabase database = getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(OrderHelper.COLUMN_NAME,name);
+        values.put(OrderHelper.COLUMN_PRICE,price);
+        values.put(OrderHelper.COLUMN_QUANTITY,quantity);
+
+        long insert = database.insert(OrderHelper.CART_TABLE, null, values);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public boolean addUser(DataModel dataModel) {
@@ -184,10 +213,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
-        cv.put(COL_USER_ID, dataModel.getUserID());
-        cv.put(COL_SENDER, dataModel.getSender());
+        cv.put(COL_SENDER_ID, dataModel.getSenderId());
+        cv.put(COL_RECEIVE_ID, dataModel.getReceiveId());
         cv.put(COL_MESSAGE, dataModel.getMessage());
-        cv.put(COL_MESSAGE_TYPE, dataModel.getMessageType());
 
         long insert = db.insert(MESSAGES_TABLE, null, cv);
         if (insert == -1) {
@@ -275,24 +303,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return returnList;
     }
 
-    public ArrayList<MessageModel> retrieveAllMessages() {
-        ArrayList<MessageModel> messageModelArrayList = new ArrayList<>();
-        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + MESSAGES_TABLE;
-        Cursor c = sqLiteDatabase.rawQuery(query, null);
-
-        while (c.moveToNext()) {
-            int userId = c.getInt(1);
-            String sender = c.getString(2);
-            String message = c.getString(3);
-            String messageType = c.getString(4);
-
-            MessageModel messageModel = new MessageModel(userId, sender, message, messageType);
-            messageModelArrayList.add(messageModel);
-        }
-        return messageModelArrayList;
-    }
-
     public Cursor getUserByUserName(String userName) {
         userName = "\"" + userName + "\"";
         String query = "SELECT * FROM " + USER_TABLE + " WHERE " + COLUMN_USER_NAME + " = " + userName;
@@ -320,58 +330,65 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return newUser;
     }
 
-    public ArrayList<MessageModel> retrieveAllMessagesByUserId(int id) {
-        ArrayList<MessageModel> messageModelArrayList = new ArrayList<>();
+    public ArrayList<MessageModel> cursorToMessageModel(Cursor cursor) {
+        ArrayList<MessageModel> messageList = new ArrayList<>();
+
+        while (cursor.moveToNext()) {
+            //  Get column index
+            int columnMessageIdIndex = cursor.getColumnIndex(COL_MESSAGE_ID);
+            int columnSenderIdIndex = cursor.getColumnIndex(COL_SENDER_ID);
+            int columnReceiveIdIndex = cursor.getColumnIndex(COL_RECEIVE_ID);
+            int columnMessageIndex = cursor.getColumnIndex(COL_MESSAGE);
+
+            MessageModel messageModel = new MessageModel(
+                    cursor.getInt(columnMessageIdIndex),
+                    cursor.getInt(columnSenderIdIndex),
+                    cursor.getInt(columnReceiveIdIndex),
+                    cursor.getString(columnMessageIndex));
+
+            messageList.add(messageModel);
+        }
+        return messageList;
+    }
+
+    public ArrayList<MessageModel> retrieveAllMessages() {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + MESSAGES_TABLE + " WHERE " + COL_USER_ID + " = " + id;
+        String query = "SELECT * FROM " + MESSAGES_TABLE;
         Cursor c = sqLiteDatabase.rawQuery(query, null);
 
-        while (c.moveToNext()) {
-            int userId = c.getInt(1);
-            String sender = c.getString(2);
-            String message = c.getString(3);
-            String messageType = c.getString(4);
+        return cursorToMessageModel(c);
+    }
 
-            MessageModel messageModel = new MessageModel(userId, sender, message, messageType);
-            messageModelArrayList.add(messageModel);
-        }
-        return messageModelArrayList;
+    public ArrayList<MessageModel> retrieveAllMessagesByUserId(int id) {
+        SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
+        String query =
+                "SELECT * FROM " + MESSAGES_TABLE +
+                " WHERE " + COL_SENDER_ID + " = " + id +
+                " OR " + COL_RECEIVE_ID + " = " + id;
+        Cursor c = sqLiteDatabase.rawQuery(query, null);
+
+        return cursorToMessageModel(c);
     }
 
     public ArrayList<MessageModel> retrieveAllSentMessageByUserId(int id) {
-        ArrayList<MessageModel> messageModelArrayList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + MESSAGES_TABLE + " WHERE " + COL_USER_ID + " = " + id + " AND " + COL_MESSAGE_TYPE + " = '" + MessageModel.MESSAGE_TYPE_SEND + "'";
+        String query =
+                "SELECT * FROM " + MESSAGES_TABLE +
+                        " WHERE " + COL_SENDER_ID + " = " + id;
         Cursor c = sqLiteDatabase.rawQuery(query, null);
 
-        while (c.moveToNext()) {
-            int userId = c.getInt(1);
-            String sender = c.getString(2);
-            String message = c.getString(3);
-            String messageType = c.getString(4);
-
-            MessageModel messageModel = new MessageModel(userId, sender, message, messageType);
-            messageModelArrayList.add(messageModel);
-        }
-        return messageModelArrayList;
+        return cursorToMessageModel(c);
     }
 
     public ArrayList<MessageModel> retrieveAllReceivedMessageByUserId(int id) {
-        ArrayList<MessageModel> messageModelArrayList = new ArrayList<>();
+        ArrayList<MessageModel> receivedMessageList = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
-        String query = "SELECT * FROM " + MESSAGES_TABLE + " WHERE " + COL_USER_ID + " = " + id + " AND " + COL_MESSAGE_TYPE + " = '" + MessageModel.MESSAGE_TYPE_RECEIVE + "'";
+        String query =
+                "SELECT * FROM " + MESSAGES_TABLE +
+                        " WHERE " + COL_RECEIVE_ID + " = " + id;
         Cursor c = sqLiteDatabase.rawQuery(query, null);
 
-        while (c.moveToNext()) {
-            int userId = c.getInt(1);
-            String sender = c.getString(2);
-            String message = c.getString(3);
-            String messageType = c.getString(4);
-
-            MessageModel messageModel = new MessageModel(userId, sender, message, messageType);
-            messageModelArrayList.add(messageModel);
-        }
-        return messageModelArrayList;
+        return cursorToMessageModel(c);
     }
 
     /*BOOKING TABLE*/
@@ -392,6 +409,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         System.out.println(query);
         getWritableDatabase().execSQL(query);
         return true;
+    }
+
+    public ArrayList<BookingModel> retrieveAllBookingByBarberId(int barberId) {
+        ArrayList<BookingModel> bookingList = new ArrayList<>();
+
+        String query = "SELECT * FROM " + BOOKING_TABLE.NAME + " WHERE " + BOOKING_TABLE.COLUMN_BARBER_ID + " = " + barberId;
+        Cursor c = getReadableDatabase().rawQuery(query, null);
+
+        while (c.moveToNext()) {
+            int bookingId = c.getInt(c.getColumnIndex(BOOKING_TABLE.COLUMN_ID) + 0);
+            int customerId = c.getInt(c.getColumnIndex(BOOKING_TABLE.COLUMN_CUSTOMER_ID) + 0);
+            String dateTime = c.getString(c.getColumnIndex(BOOKING_TABLE.COLUMN_DATETIME) + 0);
+            System.out.println(dateTime);
+
+            BookingModel bookingModel = new BookingModel(customerId, barberId, dateTime);
+            bookingList.add(bookingModel);
+        }
+        return bookingList;
     }
 
     public boolean addNotify(NotifyModel notify) {

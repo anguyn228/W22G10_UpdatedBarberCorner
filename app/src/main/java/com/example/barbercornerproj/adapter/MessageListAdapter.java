@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barbercornerproj.DatabaseHelper;
@@ -17,13 +18,30 @@ import java.util.ArrayList;
 
 public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.ViewHolder> {
 
+    public static String MESSAGE_LIST_SEND = "send";
+    public static String MESSAGE_LIST_RECEIVE = "receive";
+
+    private String messageListStyle;
+
     private Context context;
     private ArrayList<MessageModel> messageList;
+    private ItemClickListener clickListener = null;
     private int userId = 1;
 
-    public MessageListAdapter(Context context, @NonNull ArrayList<MessageModel> messageList) {
+    public MessageListAdapter(@NonNull Context context, @NonNull ArrayList<MessageModel> messageList) {
         this.context = context;
         this.messageList = messageList;
+    }
+
+    public MessageListAdapter(
+            @NonNull Context context,
+            @NonNull ArrayList<MessageModel> messageList,
+            @Nullable ItemClickListener clickListener,
+            @NonNull String messageListStyle) {
+        this.context = context;
+        this.messageList = messageList;
+        this.clickListener = clickListener;
+        this.messageListStyle = messageListStyle;
     }
 
     @NonNull
@@ -38,7 +56,17 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.txtMessage.setText(messageList.get(position).getMessage());
-        holder.txtSender.setText(messageList.get(position).getSender());
+
+        int senderOrReceiverId;
+        if (messageListStyle.equals(MESSAGE_LIST_SEND)) {
+            senderOrReceiverId = messageList.get(position).getSenderId();
+        } else {
+            senderOrReceiverId = messageList.get(position).getReceiveId();
+        }
+        DatabaseHelper databaseHelper = new DatabaseHelper(context);
+
+        String senderName = databaseHelper.getUserById(senderOrReceiverId).getName();
+        holder.txtName.setText(senderName);
 
     }
 
@@ -49,12 +77,24 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView txtMessage;
-        private TextView txtSender;
+        private TextView txtName;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             txtMessage = itemView.findViewById(R.id.message);
-            txtSender = itemView.findViewById(R.id.sender);
+            txtName = itemView.findViewById(R.id.sender);
+            if (clickListener != null) {
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        clickListener.onItemClickListener(getAdapterPosition(), messageList.get(getAdapterPosition()));
+                    }
+                });
+            }
         }
+    }
+
+    public interface ItemClickListener {
+        void onItemClickListener(int position, MessageModel message);
     }
 }

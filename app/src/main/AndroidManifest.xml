@@ -10,6 +10,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BarberCornerProj">
         <activity
+            android:name=".ViewAllBookingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SummaryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".InfoProdShopActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ShopHairProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".FullViewGalleryImg"
+            android:exported="false" />
+        <activity
+            android:name=".Hair_Style_Pics"
+            android:exported="false" />
+        <activity
             android:name=".UpdateUserActivity"
             android:exported="false" />
         <activity

@@ -1,35 +1,38 @@
 package com.example.barbercornerproj.model;
 
 public class MessageModel {
-    public static final String MESSAGE_TYPE_SEND = "send";
-    public static final String MESSAGE_TYPE_RECEIVE = "receive";
-
-    private int userID;
-    private String sender;
+    private int messageId;
+    private int senderId;
+    private int receiveId;
     private String message;
-    private String messageType;
 
-    public MessageModel(int userID, String sender, String message, String messageType) {
-        this.userID = userID;
-        this.sender = sender;
+    public MessageModel(int senderId, int receiveId, String message) {
+        this.senderId = senderId;
+        this.receiveId = receiveId;
         this.message = message;
-        this.messageType = messageType;
     }
 
-    public int getUserID() {
-        return userID;
+    public MessageModel(int messageId, int senderId, int receiveId, String message) {
+        this.messageId = messageId;
+        this.senderId = senderId;
+        this.receiveId = receiveId;
+        this.message = message;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public int getMessageId() {
+        return messageId;
     }
 
-    public String getSender() {
-        return sender;
+    public void setMessageId(int messageId) {
+        this.messageId = messageId;
     }
 
-    public void setSender(String sender) {
-        this.sender = sender;
+    public int getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(int senderId) {
+        this.senderId = senderId;
     }
 
     public String getMessage() {
@@ -40,11 +43,11 @@ public class MessageModel {
         this.message = message;
     }
 
-    public String getMessageType() {
-        return messageType;
+    public int getReceiveId() {
+        return receiveId;
     }
 
-    public void setMessageType(String messageType) {
-        this.messageType = messageType;
+    public void setReceiveId(int receiveId) {
+        this.receiveId = receiveId;
     }
 }

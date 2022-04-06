@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_corner"
+        android:elevation="2dp"
+        android:translationZ="2dp"
+        android:layout_marginBottom="5dp">
+
+        <RelativeLayout
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:id="@+id/rel_time"
+            android:background="@drawable/rounded_corner_light_blue_2">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="18"
+                android:textSize="30sp"
+                android:id="@+id/txt_day"
+                android:textColor="#759bfa"
+                android:layout_centerHorizontal="true"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="January"
+                android:textColor="#759bfa"
+                android:layout_below="@id/txt_day"
+                android:id="@+id/txt_month"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Customer Name"
+            android:id="@+id/txt_customer_name"
+            android:textStyle="bold"
+            android:layout_toRightOf="@id/rel_time"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/circulastd_bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_time"
+            android:text="06-04-2022 12:20"
+            android:layout_below="@id/txt_customer_name"
+            android:layout_alignLeft="@id/txt_customer_name"/>
+
+    </RelativeLayout>
+</RelativeLayout>

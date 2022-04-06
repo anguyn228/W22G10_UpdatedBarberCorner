@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
             case "barber":
                 System.out.println("Activity barber");
                 startActivity(new Intent(MainActivity.this, StaffDashBoard.class)
-                        .putExtra("userid", USERID));
+                        .putExtra(TAG_USER_ID, userId));
                 finish();
                 break;
 
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startMessageActivity() {
-        Intent intent = new Intent(this, Message.class);
+        Intent intent = new Intent(this, InfoProdShopActivity.class);
         startActivity(intent);
     }
 }
