@@ -53,6 +53,13 @@
             android:text="06-04-2022 12:20"
             android:layout_below="@id/txt_customer_name"
             android:layout_alignLeft="@id/txt_customer_name"/>
-
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_baseline_delete_24"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:id="@+id/img_delete"/>
     </RelativeLayout>
 </RelativeLayout>

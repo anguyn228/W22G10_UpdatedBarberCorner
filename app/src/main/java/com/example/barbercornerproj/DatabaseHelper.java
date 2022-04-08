@@ -374,7 +374,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query =
                 "SELECT * FROM " + MESSAGES_TABLE +
-                        " WHERE " + COL_SENDER_ID + " = " + id;
+                        " WHERE " + COL_SENDER_ID + " = " + id +
+                        " ORDER BY " + COL_MESSAGE_ID + " DESC";
         Cursor c = sqLiteDatabase.rawQuery(query, null);
 
         return cursorToMessageModel(c);
@@ -385,7 +386,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query =
                 "SELECT * FROM " + MESSAGES_TABLE +
-                        " WHERE " + COL_RECEIVE_ID + " = " + id;
+                        " WHERE " + COL_RECEIVE_ID + " = " + id +
+                        " ORDER BY " + COL_MESSAGE_ID + " DESC";
         Cursor c = sqLiteDatabase.rawQuery(query, null);
 
         return cursorToMessageModel(c);
@@ -411,6 +413,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return true;
     }
 
+    public void deleteBooking(int bookingId) {
+        String query = "DELETE FROM " + BOOKING_TABLE.NAME + " WHERE " + BOOKING_TABLE.COLUMN_ID + " = " + bookingId;
+        getWritableDatabase().execSQL(query);
+    }
+
     public ArrayList<BookingModel> retrieveAllBookingByBarberId(int barberId) {
         ArrayList<BookingModel> bookingList = new ArrayList<>();
 
@@ -423,7 +430,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String dateTime = c.getString(c.getColumnIndex(BOOKING_TABLE.COLUMN_DATETIME) + 0);
             System.out.println(dateTime);
 
-            BookingModel bookingModel = new BookingModel(customerId, barberId, dateTime);
+            BookingModel bookingModel = new BookingModel(bookingId, customerId, barberId, dateTime);
             bookingList.add(bookingModel);
         }
         return bookingList;

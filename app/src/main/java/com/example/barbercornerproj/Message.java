@@ -19,8 +19,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.barbercornerproj.adapter.MessageListAdapter;
+import com.example.barbercornerproj.adapter.UserAdapter;
 import com.example.barbercornerproj.model.DataModel;
 import com.example.barbercornerproj.model.MessageModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
@@ -30,8 +32,11 @@ public class Message extends AppCompatActivity {
     private TextView txtSent, txtReceived;
     private RecyclerView recyclerViewSent;
     private RecyclerView recyclerViewReceived;
+    private FloatingActionButton floatingActionButton;
     private DatabaseHelper databaseHelper;
     private int userId;
+
+    private ArrayList<MessageModel> receivedMessageList, sentMessageList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,37 +53,31 @@ public class Message extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ArrayList<MessageModel> sentMessageList = databaseHelper.retrieveAllSentMessageByUserId(userId);
+        sentMessageList = databaseHelper.retrieveAllSentMessageByUserId(userId);
         MessageListAdapter adapterSent = new MessageListAdapter(this, sentMessageList, null, MessageListAdapter.MESSAGE_LIST_RECEIVE);
         recyclerViewSent.setAdapter(adapterSent);
         recyclerViewSent.setLayoutManager(new LinearLayoutManager(this));
 
-        ArrayList<MessageModel> receivedMessageList = databaseHelper.retrieveAllReceivedMessageByUserId(userId);
+        receivedMessageList = databaseHelper.retrieveAllReceivedMessageByUserId(userId);
         MessageListAdapter.ItemClickListener itemClickListener = new MessageListAdapter.ItemClickListener() {
             @Override
-            public void onItemClickListener(int position, MessageModel messageModel) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(Message.this);
-                LayoutInflater inflater = LayoutInflater.from(Message.this);
-                View sendMessageView = inflater.inflate(R.layout.send_message, null);
-                AlertDialog dialog = builder.setView(sendMessageView).create();
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            public void onItemClickListener(int position, @NonNull MessageModel messageModel) {
+                SendMessageDialog.OnSendButtonLickListener sendButtonLickListener =
+                        (view, dialog, messageInput) -> {
+                            int userId = ((AppCompatActivity) Message.this).getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
+                            int receiverId = messageModel.getSenderId();
+                            MessageModel messageModel1 = new MessageModel(userId, receiverId, messageInput);
+                            databaseHelper.addMessage(messageModel1);
 
-                Button sendButton = sendMessageView.findViewById(R.id.btn_send);
-                EditText messageInput = sendMessageView.findViewById(R.id.edt_send_message);
-                sendButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        String message = messageInput.getText().toString();
-                        int userId = ((AppCompatActivity) Message.this).getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
-                        String userName = databaseHelper.getUserById(userId).getName();
-                        DataModel receiver = databaseHelper.getUserById(messageModel.getSenderId());
-                        MessageModel messageModel = new MessageModel(userId, receiver.getId(), message);
-                        databaseHelper.addMessage(messageModel);
-                        Toast.makeText(Message.this, "Message sent.", Toast.LENGTH_SHORT).show();
-                        dialog.dismiss();
-                    }
-                });
-                dialog.show();
+                            Toast.makeText(Message.this, "Message sent.", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        };
+
+                SendMessageDialog sendMessageDialog = new SendMessageDialog(
+                        Message.this,
+                        sendButtonLickListener
+                );
+                sendMessageDialog.show();
             }
         };
         MessageListAdapter adapterReceived = new MessageListAdapter(this, receivedMessageList, itemClickListener, MessageListAdapter.MESSAGE_LIST_SEND);
@@ -101,6 +100,7 @@ public class Message extends AppCompatActivity {
         toolbar = findViewById(R.id.action_bar);
         txtSent = findViewById(R.id.txt_view_sent);
         txtReceived = findViewById(R.id.txt_view_received);
+        floatingActionButton = findViewById(R.id.float_btn_add);
     }
 
     private void initViesEventHandle() {
@@ -129,6 +129,77 @@ public class Message extends AppCompatActivity {
                 txtSent.setTextColor(getResources().getColor(R.color.light_blue));
             }
         });
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ArrayList<DataModel> userHasConversationList = getUserHasConversationWith();
+
+                //  Create send message dialog when click item
+                UserAdapter.OnItemClick onItemClick = (position, dataModel) -> {
+                    SendMessageDialog.OnSendButtonLickListener sendButtonLickListener =
+                            (view1, dialog, messageInput) -> {
+                                int userId = ((AppCompatActivity) Message.this).getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
+                                int receiverId = dataModel.getId();
+                                MessageModel messageModel1 = new MessageModel(userId, receiverId, messageInput);
+                                databaseHelper.addMessage(messageModel1);
+
+                                Toast.makeText(Message.this, "Message sent.", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                            };
+
+                    SendMessageDialog sendMessageDialog = new SendMessageDialog(
+                            Message.this,
+                            sendButtonLickListener
+                    );
+                    sendMessageDialog.show();
+                };
+
+                UserSelectDialog userSelectDialog = new UserSelectDialog(
+                        Message.this,
+                        userHasConversationList,
+                        onItemClick
+                );
+                userSelectDialog.show();
+            }
+        });
+    }
+
+    private ArrayList<DataModel> getUserHasConversationWith() {
+        ArrayList<DataModel> userHasConversationList = new ArrayList<>();
+        for (int i = 0; i < receivedMessageList.size(); ++i) {
+            boolean userExistsInList = false;
+            //  Check if user is not exists in userHasConversationList
+            for (int j = 0; j < userHasConversationList.size(); ++j) {
+                if (userHasConversationList.get(j).getId() == receivedMessageList.get(i).getSenderId()) {
+                    userExistsInList = true;
+                    break;
+                }
+            }
+            if (!userExistsInList) {
+                userHasConversationList.add(
+                        databaseHelper.getUserById(receivedMessageList.get(i).getSenderId())
+                );
+            }
+        }
+
+        //  Get user had received message from this user
+        for (int i = 0; i < sentMessageList.size(); ++i) {
+            boolean userExistsInList = false;
+            //  Check if user is not exists in userHasConversationList
+            for (int j = 0; j < userHasConversationList.size(); ++j) {
+                if (userHasConversationList.get(j).getId() == sentMessageList.get(i).getReceiveId()) {
+                    userExistsInList = true;
+                    break;
+                }
+            }
+            if (!userExistsInList) {
+                userHasConversationList.add(
+                        databaseHelper.getUserById(sentMessageList.get(i).getReceiveId())
+                );
+            }
+        }
+        return userHasConversationList;
     }
 
     @Override
@@ -138,6 +209,5 @@ public class Message extends AppCompatActivity {
     }
 
     private void showSendMessageDialog() {
-
     }
 }

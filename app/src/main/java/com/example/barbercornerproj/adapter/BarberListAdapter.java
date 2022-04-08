@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.barbercornerproj.DatabaseHelper;
 import com.example.barbercornerproj.MainActivity;
 import com.example.barbercornerproj.R;
+import com.example.barbercornerproj.SendMessageDialog;
 import com.example.barbercornerproj.model.DataModel;
 import com.example.barbercornerproj.model.MessageModel;
 import com.example.barbercornerproj.model.StaffModel;
@@ -70,28 +71,18 @@ public class BarberListAdapter extends RecyclerView.Adapter<BarberListAdapter.Vi
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    LayoutInflater inflater = LayoutInflater.from(context);
-                    View sendMessageView = inflater.inflate(R.layout.send_message, null);
-                    AlertDialog dialog = builder.setView(sendMessageView).create();
-                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    SendMessageDialog.OnSendButtonLickListener onSendButtonLickListener =
+                            (view1, dialog, messageInput) -> {
+                                int userId = ((AppCompatActivity) context).getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
+                                DataModel staffModel = barberList.get(getAdapterPosition());
+                                MessageModel messageModel = new MessageModel(userId, staffModel.getId(), messageInput);
+                                databaseHelper.addMessage(messageModel);
+                                Toast.makeText(context, "Message sent.", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                    };
 
-                    Button sendButton = sendMessageView.findViewById(R.id.btn_send);
-                    EditText messageInput = sendMessageView.findViewById(R.id.edt_send_message);
-                    sendButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            String message = messageInput.getText().toString();
-                            int userId = ((AppCompatActivity) context).getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
-                            String userName = databaseHelper.getUserById(userId).getName();
-                            DataModel staffModel = barberList.get(getAdapterPosition());
-                            MessageModel messageModel = new MessageModel(userId, staffModel.getId(), message);
-                            databaseHelper.addMessage(messageModel);
-                            Toast.makeText(context, "Message sent.", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.show();
+                    SendMessageDialog sendMessageDialog = new SendMessageDialog(context, onSendButtonLickListener);
+                    sendMessageDialog.show();
                 }
             });
         }

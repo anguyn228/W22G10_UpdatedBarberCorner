@@ -1,10 +1,12 @@
 package com.example.barbercornerproj.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,11 +30,21 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
     private Context context;
     private int barberId;
 
+    OnDeleteButtonClickListener onDeleteButtonClickListener = null;
+
     public BookingAdapter(int barberId, Context context) {
         this.context = context;
         this.barberId = barberId;
         databaseHelper = new DatabaseHelper(context);
         this.bookingList = databaseHelper.retrieveAllBookingByBarberId(barberId);
+    }
+
+    public BookingAdapter(int barberId, Context context, @NonNull OnDeleteButtonClickListener onDeleteButtonClickListener) {
+        this.context = context;
+        this.barberId = barberId;
+        databaseHelper = new DatabaseHelper(context);
+        this.bookingList = databaseHelper.retrieveAllBookingByBarberId(barberId);
+        this.onDeleteButtonClickListener = onDeleteButtonClickListener;
     }
 
     @NonNull
@@ -65,6 +77,10 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
         String time = formatter.format(date);
 
         holder.txtTime.setText(time);
+
+        if (onDeleteButtonClickListener != null) {
+            holder.setOnDeleteButtonClickListener(onDeleteButtonClickListener);
+        }
     }
 
     @Override
@@ -74,12 +90,29 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtDay, txtMonth, txtCustomerName, txtTime;
+        ImageView imgDelete;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            imgDelete = itemView.findViewById(R.id.img_delete);
             txtDay = itemView.findViewById(R.id.txt_day);
             txtMonth = itemView.findViewById(R.id.txt_month);
             txtCustomerName = itemView.findViewById(R.id.txt_customer_name);
             txtTime = itemView.findViewById(R.id.txt_time);
         }
+
+        @SuppressLint("NotifyDataSetChanged")
+        public void setOnDeleteButtonClickListener(OnDeleteButtonClickListener onClickListener) {
+            imgDelete.setOnClickListener(
+                    view -> {
+                        onClickListener.onClick(BookingAdapter.this, bookingList.get(getAdapterPosition()));
+                        System.out.println("CLICKED");
+                        bookingList = BookingAdapter.this.databaseHelper.retrieveAllBookingByBarberId(BookingAdapter.this.barberId);
+                        BookingAdapter.this.notifyDataSetChanged();
+                    }
+            );
+        }
+    }
+    public interface OnDeleteButtonClickListener {
+        void onClick(BookingAdapter adapter, BookingModel bookingModel);
     }
 }

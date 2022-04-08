@@ -95,6 +95,6 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     }
 
     public interface ItemClickListener {
-        void onItemClickListener(int position, MessageModel message);
+        void onItemClickListener(int position, @NonNull MessageModel message);
     }
 }

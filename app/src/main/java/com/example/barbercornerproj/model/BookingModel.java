@@ -1,6 +1,9 @@
 package com.example.barbercornerproj.model;
 
+import com.example.barbercornerproj.DatabaseHelper;
+
 public class BookingModel {
+    private int bookingId;
     private int userId;
     private int barberId;
     private int day;
@@ -21,6 +24,29 @@ public class BookingModel {
         this.hour = Integer.parseInt(time.split(":")[0]);
         this.minute = Integer.parseInt(time.split(":")[1]);
         System.out.println(day + "-" + month + "-" + year + " " + hour + ":" + minute);
+    }
+
+    public BookingModel(int bookingId, int userId, int barberId, String dateTime) {
+        this.bookingId = bookingId;
+        this.userId = userId;
+        this.barberId = barberId;
+        String date = dateTime.split(" ")[0];
+        String time = dateTime.split(" ")[1];
+        System.out.println(date + " + " + time);
+        this.day = Integer.parseInt(date.split("-")[2]);
+        this.month = Integer.parseInt(date.split("-")[1]);
+        this.year = Integer.parseInt(date.split("-")[0]);
+        this.hour = Integer.parseInt(time.split(":")[0]);
+        this.minute = Integer.parseInt(time.split(":")[1]);
+        System.out.println(day + "-" + month + "-" + year + " " + hour + ":" + minute);
+    }
+
+    public int getBookingId() {
+        return bookingId;
+    }
+
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
     }
 
     public int getUserId() {
@@ -77,5 +103,12 @@ public class BookingModel {
 
     public void setMinute(int minute) {
         this.minute = minute;
+    }
+
+    public String toString(DataModel barber) {
+        String str =
+                "Barber: " + barber.getName() +
+                ", Date: " + day + "-" + month + "-" + year + ", Time: " + hour + ":" + minute;
+        return str;
     }
 }
