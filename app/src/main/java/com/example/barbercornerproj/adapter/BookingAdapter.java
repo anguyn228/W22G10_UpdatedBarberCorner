@@ -2,7 +2,6 @@ package com.example.barbercornerproj.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.barbercornerproj.DatabaseHelper;
@@ -28,22 +26,34 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
     private DatabaseHelper databaseHelper;
     private ArrayList<BookingModel> bookingList;
     private Context context;
-    private int barberId;
+    private int userId;
 
     OnDeleteButtonClickListener onDeleteButtonClickListener = null;
 
-    public BookingAdapter(int barberId, Context context) {
+    public BookingAdapter(int userId, Context context) {
         this.context = context;
-        this.barberId = barberId;
+        this.userId = userId;
         databaseHelper = new DatabaseHelper(context);
-        this.bookingList = databaseHelper.retrieveAllBookingByBarberId(barberId);
+        this.bookingList = databaseHelper.retrieveAllBookingByBarberId(userId);
     }
 
-    public BookingAdapter(int barberId, Context context, @NonNull OnDeleteButtonClickListener onDeleteButtonClickListener) {
+    public BookingAdapter(int userId, Context context, @NonNull OnDeleteButtonClickListener onDeleteButtonClickListener) {
         this.context = context;
-        this.barberId = barberId;
+        this.userId = userId;
         databaseHelper = new DatabaseHelper(context);
-        this.bookingList = databaseHelper.retrieveAllBookingByBarberId(barberId);
+        this.bookingList = databaseHelper.retrieveAllBookingByBarberId(userId);
+        this.onDeleteButtonClickListener = onDeleteButtonClickListener;
+    }
+
+    public BookingAdapter(
+            int userId,
+            ArrayList<BookingModel> bookingList,
+            Context context,
+            OnDeleteButtonClickListener onDeleteButtonClickListener) {
+        databaseHelper = new DatabaseHelper(context);
+        this.userId = userId;
+        this.bookingList = bookingList;
+        this.context = context;
         this.onDeleteButtonClickListener = onDeleteButtonClickListener;
     }
 
@@ -62,8 +72,15 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
         DateFormatSymbols dateFormat = new DateFormatSymbols();
         holder.txtDay.setText(String.valueOf(bookingModel.getDay()));
         holder.txtMonth.setText(dateFormat.getMonths()[(bookingModel.getMonth()) - 1]);
-        DataModel dataModel = databaseHelper.getUserById(bookingModel.getUserId());
-        holder.txtCustomerName.setText(dataModel.getUserName());
+
+        int dataModelId = 0;
+        if (databaseHelper.getUserById(userId).getTitle().toLowerCase().equals("barber")) {
+            dataModelId = bookingModel.getUserId();
+        } else {
+            dataModelId = bookingModel.getBarberId();
+        }
+        DataModel dataModel = databaseHelper.getUserById(dataModelId);
+        holder.txtCustomerName.setText(dataModel.getName());
 
         int day = bookingModel.getDay();
         int month = bookingModel.getMonth();
@@ -105,8 +122,9 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.ViewHold
             imgDelete.setOnClickListener(
                     view -> {
                         onClickListener.onClick(BookingAdapter.this, bookingList.get(getAdapterPosition()));
-                        System.out.println("CLICKED");
-                        bookingList = BookingAdapter.this.databaseHelper.retrieveAllBookingByBarberId(BookingAdapter.this.barberId);
+                        bookingList.remove(getAdapterPosition());
+//                        System.out.println("CLICKED");
+//                        bookingList = BookingAdapter.this.databaseHelper.retrieveAllBookingByBarberId(BookingAdapter.this.barberId);
                         BookingAdapter.this.notifyDataSetChanged();
                     }
             );

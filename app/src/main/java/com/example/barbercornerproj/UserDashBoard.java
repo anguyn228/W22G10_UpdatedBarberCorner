@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class UserDashBoard extends AppCompatActivity {
 
     private DatabaseHelper databaseHelper;
-    private Button btnBook, btnMessage, btnViewBarber;
+    private Button btnBook, btnMessage, btnViewBarber, btnAllBooking;
     private int userId;
 
     @Override
@@ -29,6 +29,7 @@ public class UserDashBoard extends AppCompatActivity {
         btnBook = findViewById(R.id.btn_book);
         btnMessage = findViewById(R.id.btn_message);
         btnViewBarber = findViewById(R.id.btn_view_barber);
+        btnAllBooking = findViewById(R.id.btn_all_booking);
 
         System.out.println("USER DASHBOARD ID: " + userId);
 
@@ -54,6 +55,15 @@ public class UserDashBoard extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserDashBoard.this, BarberViewActivity.class);
+                intent.putExtra(MainActivity.TAG_USER_ID, userId);
+                startActivity(intent);
+            }
+        });
+
+        btnAllBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserDashBoard.this, ViewAllBookingActivity.class);
                 intent.putExtra(MainActivity.TAG_USER_ID, userId);
                 startActivity(intent);
             }

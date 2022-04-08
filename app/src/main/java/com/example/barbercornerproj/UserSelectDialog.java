@@ -24,6 +24,9 @@ public class UserSelectDialog {
     private ArrayList<DataModel> userList;
     private UserAdapter.OnItemClick onItemClick = null;
 
+    private RecyclerView recBarberSelect;
+    private UserAdapter userAdapter;
+
     public UserSelectDialog(Context context, ArrayList<DataModel> userList) {
         this.context = context;
         this.userList = userList;
@@ -45,10 +48,10 @@ public class UserSelectDialog {
         View barberSelectView = inflater.inflate(R.layout.select_user_dialog, null);
 
         //  Init Recycler view
-        RecyclerView relBarberSelect = barberSelectView.findViewById(R.id.rel_barber_select);
-        UserAdapter userAdapter = new UserAdapter(userList, context, onItemClick);
-        relBarberSelect.setAdapter(userAdapter);
-        relBarberSelect.setLayoutManager(new LinearLayoutManager(context));
+        recBarberSelect = barberSelectView.findViewById(R.id.rel_barber_select);
+        userAdapter = new UserAdapter(userList, context, onItemClick);
+        recBarberSelect.setAdapter(userAdapter);
+        recBarberSelect.setLayoutManager(new LinearLayoutManager(context));
 
         //  Create dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -95,5 +98,10 @@ public class UserSelectDialog {
 
     public void setOnItemClick(UserAdapter.OnItemClick onItemClick) {
         this.onItemClick = onItemClick;
+        userAdapter.setOnItemClick(onItemClick);
+    }
+
+    public interface OnDataSet {
+        void onDataSet(DataModel dataModel, AlertDialog dialog);
     }
 }

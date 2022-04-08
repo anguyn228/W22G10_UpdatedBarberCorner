@@ -81,6 +81,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         }
     }
 
+    public void setOnItemClick(OnItemClick onItemClick) {
+        this.onItemClick = onItemClick;
+        notifyDataSetChanged();
+    }
+
     public interface OnItemClick {
         void onClick(int position, DataModel dataModel);
     }

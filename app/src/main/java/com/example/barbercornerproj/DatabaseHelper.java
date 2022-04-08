@@ -436,6 +436,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return bookingList;
     }
 
+    public ArrayList<BookingModel> retrieveAllBookingByCustomerId(int customerId) {
+        ArrayList<BookingModel> bookingList = new ArrayList<>();
+
+        String query = "SELECT * FROM " + BOOKING_TABLE.NAME + " WHERE " + BOOKING_TABLE.COLUMN_CUSTOMER_ID + " = " + customerId;
+        Cursor c = getReadableDatabase().rawQuery(query, null);
+
+        while (c.moveToNext()) {
+            int bookingId = c.getInt(c.getColumnIndex(BOOKING_TABLE.COLUMN_ID) + 0);
+            int barberId = c.getInt(c.getColumnIndex(BOOKING_TABLE.COLUMN_BARBER_ID) + 0);
+            String dateTime = c.getString(c.getColumnIndex(BOOKING_TABLE.COLUMN_DATETIME) + 0);
+            System.out.println(dateTime);
+
+            BookingModel bookingModel = new BookingModel(bookingId, customerId, barberId, dateTime);
+            bookingList.add(bookingModel);
+        }
+        return bookingList;
+    }
+
     public boolean addNotify(NotifyModel notify) {
         SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
         ContentValues values = new ContentValues();

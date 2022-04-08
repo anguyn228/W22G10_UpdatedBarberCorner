@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
+import com.example.barbercornerproj.adapter.UserAdapter;
 import com.example.barbercornerproj.fragment.SelectBarberDialogFragment;
 import com.example.barbercornerproj.model.DataModel;
 import com.example.barbercornerproj.model.NotifyModel;
@@ -121,8 +122,21 @@ public class BookingActivity extends AppCompatActivity implements SelectBarberDi
         relSelectBarber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SelectBarberDialogFragment fragment = new SelectBarberDialogFragment();
-                fragment.show(getSupportFragmentManager(), null);
+                UserSelectDialog userSelectDialog = new UserSelectDialog(
+                        BookingActivity.this,
+                        databaseHelper.retrieveAllBarber()
+                );
+                userSelectDialog.setOnItemClick(new UserAdapter.OnItemClick() {
+                    @Override
+                    public void onClick(int position, DataModel dataModel) {
+                        barber = dataModel;
+                        txtBarberName.setText(barber.getName());
+                        userSelectDialog.dismiss();
+                    }
+                });
+                userSelectDialog.show();
+                /*SelectBarberDialogFragment fragment = new SelectBarberDialogFragment();
+                fragment.show(getSupportFragmentManager(), null);*/
             }
         });
 
