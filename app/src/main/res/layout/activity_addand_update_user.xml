@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/barberproj1"
     tools:context=".AddAndUpdateUserActivity">
 
 
@@ -54,6 +55,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:text="Add"
+        android:backgroundTint="@color/teal_200"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
@@ -65,6 +67,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="32dp"
         android:text="View"
+        android:backgroundTint="@color/teal_200"
         app:layout_constraintStart_toEndOf="@+id/buttonAdd"
         app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 
@@ -76,6 +79,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="28dp"
         android:text="Update"
+        android:backgroundTint="@color/teal_200"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextName" />
 

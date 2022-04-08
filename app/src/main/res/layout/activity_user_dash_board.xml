@@ -4,42 +4,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/barberproj1"
     tools:context=".UserDashBoard">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Booking"
-        android:textColor="@color/white"
         android:id="@+id/btn_book"
-        android:layout_marginTop="250dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_width="261dp"
+        android:layout_height="59dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="57dp"
+        android:layout_marginEnd="73dp"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="Booking"
+        android:textColor="@color/white" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Message"
-        android:layout_below="@id/btn_book"
         android:id="@+id/btn_message"
-        android:textColor="@color/white"
-        android:layout_centerHorizontal="true"/>
+        android:layout_width="261dp"
+        android:layout_height="59dp"
+        android:layout_below="@+id/btn_book"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="73dp"
+        android:text="Message"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:textColor="@color/white" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Barber"
-        android:textColor="@color/white"
-        android:layout_below="@id/btn_message"
         android:id="@+id/btn_view_barber"
-        android:layout_centerHorizontal="true"/>
+        android:layout_width="261dp"
+        android:layout_height="59dp"
+        android:layout_below="@+id/btn_message"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="73dp"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="Barber"
+        android:textColor="@color/white" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="All Booking"
-        android:id="@+id/btn_all_booking"
+        android:id="@+id/btn_shop"
+        android:layout_width="261dp"
+        android:layout_height="59dp"
+        android:layout_below="@+id/btn_view_barber"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="59dp"
         android:textColor="@color/white"
-        android:layout_below="@id/btn_view_barber"
-        android:layout_centerHorizontal="true"/>
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:layout_marginEnd="81dp"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/btn_gallery"
+        android:layout_width="269dp"
+        android:layout_height="59dp"
+        android:layout_below="@+id/btn_shop"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="73dp"
+        android:layout_marginEnd="83dp"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="Button"
+        android:textColor="@color/white" />
 
 </RelativeLayout>

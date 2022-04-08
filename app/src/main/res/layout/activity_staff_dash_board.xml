@@ -3,24 +3,32 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/barberproj1"
     android:layout_height="match_parent"
     tools:context=".StaffDashBoard">
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        android:id="@+id/btn_message"
+        android:layout_width="252dp"
+        android:layout_height="48dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="175dp"
+        android:layout_marginEnd="79dp"
+        android:backgroundTint="@color/design_default_color_secondary"
         android:text="Message"
-        android:layout_centerInParent="true"
-        android:id="@+id/btn_message"/>
+        android:textColor="@color/white" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Booking"
         android:id="@+id/btn_booking"
-        android:textColor="@color/white"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/btn_message"/>
+        android:layout_width="252dp"
+        android:layout_height="48dp"
+        android:layout_below="@+id/btn_message"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="55dp"
+        android:layout_marginEnd="79dp"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="Booking"
+        android:textColor="@color/white" />
 
 </RelativeLayout>
