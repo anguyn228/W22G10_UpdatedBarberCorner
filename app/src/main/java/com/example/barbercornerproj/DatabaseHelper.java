@@ -65,7 +65,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final int ADMIN_USER_ID = 1;
 
-    //Booking Table
+    //  Booking Table
     static class BOOKING_TABLE {
         public static final String NAME = "BOOKING_TABLE";
         public static final String COLUMN_ID = "bookingId";
@@ -129,10 +129,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String SQL_TABLE=" CREATE TABLE " + OrderHelper.CART_TABLE + " ("
                 + OrderHelper.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + "userId INTEGER "
                 + OrderHelper.COLUMN_NAME +" TEXT NOT NULL,"
                 + OrderHelper.COLUMN_QUANTITY +" TEXT NOT NULL,"
                 + OrderHelper.COLUMN_PRICE +" TEXT NOT NULL);";
         db.execSQL(SQL_TABLE);
+
     }
 
     @Override

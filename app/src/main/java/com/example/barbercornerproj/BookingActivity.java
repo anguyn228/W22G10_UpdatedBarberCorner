@@ -17,14 +17,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.barbercornerproj.adapter.UserAdapter;
-import com.example.barbercornerproj.fragment.SelectBarberDialogFragment;
 import com.example.barbercornerproj.model.DataModel;
 import com.example.barbercornerproj.model.NotifyModel;
-import com.example.barbercornerproj.model.StaffModel;
 
 import java.util.Calendar;
 
-public class BookingActivity extends AppCompatActivity implements SelectBarberDialogFragment.SelectBarberDialogListener {
+public class BookingActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private TextView txtSelectTime;
@@ -156,14 +154,6 @@ public class BookingActivity extends AppCompatActivity implements SelectBarberDi
                 finish();
             }
         });
-    }
-
-    @Override
-    public void onBarberClick(DialogFragment dialogFragment, DataModel clickedBarber) {
-        //System.out.println("Name: " + clickedBarber.getName());
-        this.barber = clickedBarber;
-        txtBarberName.setText(barber.getName());
-        dialogFragment.dismiss();
     }
 
     private boolean validateInput() {

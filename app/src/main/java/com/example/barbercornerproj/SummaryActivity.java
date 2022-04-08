@@ -18,31 +18,35 @@ import java.util.List;
 public class SummaryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public CartAdapter mAdapter;
-    public static final int LOADER=0;
-
+    public static final int LOADER = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
 
+        String productName = getIntent().getStringExtra(InfoProdShopActivity.TAG_PRODUCT_NAME);
+        int productPrice = getIntent().getIntExtra(InfoProdShopActivity.TAG_PRODUCT_PRICE, 0);
+        int productQuantity = getIntent().getIntExtra(InfoProdShopActivity.TAG_PRODUCT_QUANTITY, 0);
 
-        getLoaderManager().initLoader(LOADER,null,this);
-        ListView listView=findViewById(R.id.list);
-        mAdapter=new CartAdapter(this,null);
-        listView.setAdapter(mAdapter);
+
+
+        /*getLoaderManager().initLoader(LOADER, null, this);
+        ListView listView = findViewById(R.id.list);
+        mAdapter = new CartAdapter(this, null);
+        listView.setAdapter(mAdapter);*/
     }
 
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
 
-        String[] projection={OrderContract.OrderEntry._ID,
+        String[] projection = {OrderContract.OrderEntry._ID,
                 OrderContract.OrderEntry.COLUMN_NAME,
                 OrderContract.OrderEntry.COLUMN_PRICE,
                 OrderContract.OrderEntry.COLUMN_QUANTITY};
 
-        return new CursorLoader(this,OrderContract.OrderEntry.CONTENT_URI,
+        return new CursorLoader(this, OrderContract.OrderEntry.CONTENT_URI,
                 projection,
                 null,
                 null,

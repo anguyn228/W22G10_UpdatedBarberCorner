@@ -65,7 +65,7 @@ public class UserDashBoard extends AppCompatActivity {
         btnShopCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserDashBoard.this, InfoProdShopActivity.class);
+                Intent intent = new Intent(UserDashBoard.this, ShopHairProductActivity.class);
                 intent.putExtra(MainActivity.TAG_USER_ID, userId);
                 startActivity(intent);
             }

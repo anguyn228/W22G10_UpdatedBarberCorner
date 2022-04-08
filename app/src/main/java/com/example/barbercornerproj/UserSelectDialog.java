@@ -11,7 +11,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.barbercornerproj.adapter.BarberAdapter;
 import com.example.barbercornerproj.adapter.UserAdapter;
 import com.example.barbercornerproj.model.DataModel;
 

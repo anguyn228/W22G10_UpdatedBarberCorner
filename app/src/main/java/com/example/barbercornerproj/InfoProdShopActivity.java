@@ -1,14 +1,13 @@
 package com.example.barbercornerproj;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.LoaderManager;
-import android.content.ContentValues;
+import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,14 +19,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.barbercornerproj.Database.OrderContract;
-import com.example.barbercornerproj.Database.OrderHelper;
+import com.example.barbercornerproj.model.ShopHairProductModel;
 
 public class InfoProdShopActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
+    public static String TAG_PRODUCT_NAME = "productName";
+    public static String TAG_PRODUCT_DETAIL = "productDetail";
+    public static String TAG_PRODUCT_PRICE = "productPrice";
+    public static String TAG_PRODUCT_IMAGE = "productImage";
+
+    public static String TAG_PRODUCT_QUANTITY = "productQuantity";
+
+    private int userId;
+
+    private ShopHairProductModel productModel;
+
     ImageView imageView;
-    ImageButton plusquantity, minusquantity;
-    TextView quantitynumber, productName, productPrice;
-    Button addtoCart;
+    ImageButton plusQuantity, minusQuantity;
+    TextView quantityNumber, productName, productPrice;
+    Button addToCart;
     int quantity;
     public Uri CurrentCartUri;
     boolean hasAllRequiredValues = false;
@@ -38,34 +48,60 @@ public class InfoProdShopActivity extends AppCompatActivity implements LoaderMan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_prod_shop);
 
+        productModel = new ShopHairProductModel(
+              getIntent().getStringExtra(TAG_PRODUCT_NAME),
+              getIntent().getStringExtra(TAG_PRODUCT_DETAIL),
+              getIntent().getIntExtra(TAG_PRODUCT_PRICE, 0),
+              getIntent().getIntExtra(TAG_PRODUCT_IMAGE, 0)
+        );
+
         databaseHelper = new DatabaseHelper(this);
 
         imageView = findViewById(R.id.imageViewInfo);
-        plusquantity = findViewById(R.id.addquantity);
-        minusquantity = findViewById(R.id.subquantity);
-        quantitynumber = findViewById(R.id.quantity);
+        plusQuantity = findViewById(R.id.addquantity);
+        minusQuantity = findViewById(R.id.subquantity);
+        quantityNumber = findViewById(R.id.quantity);
         productName = findViewById(R.id.productNameinInfo);
         productPrice = findViewById(R.id.productPrice);
-        addtoCart = findViewById(R.id.addtocart);
+        addToCart = findViewById(R.id.addtocart);
 
-        productName.setText("Hair Gel");
+        imageView.setImageDrawable(getDrawable(productModel.getProductPic()));
+        productName.setText(productModel.getProductName());
+        productPrice.setText("$" + productModel.getProductPrice());
 
-
-        addtoCart.setOnClickListener(new View.OnClickListener() {
+        addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                SaveCart();
+                String name = productName.getText().toString();
+                int price = Integer.parseInt(productPrice.getText().toString());
+                int quantity = Integer.parseInt(quantityNumber.getText().toString());
+                addToCart(name, quantity, price);
                 Intent intent = new Intent(InfoProdShopActivity.this, SummaryActivity.class);
+                intent.putExtra(TAG_PRODUCT_NAME, name);
+                intent.putExtra(TAG_PRODUCT_PRICE, price);
+                intent.putExtra(TAG_PRODUCT_QUANTITY, quantity);
                 startActivity(intent);
+            }
 
-                SaveCart();
+            private void addToCart(String productName, int quantity, int totalPrice) {
+                String order = productName + "|" + String.valueOf(quantity) + "|" + String.valueOf(totalPrice);
+                SharedPreferences sharedPreferences  = InfoProdShopActivity.this.getSharedPreferences(
+                        "shopping_cart_" + String.valueOf(userId),
+                        Context.MODE_PRIVATE
+                );
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString(String.valueOf(sharedPreferences.getAll().size()), order);
+                editor.apply();
             }
 
             private boolean SaveCart() {
                 String name = productName.getText().toString();
-                String price = productPrice.getText().toString();
-                String quantity = quantitynumber.getText().toString();
+                int price = Integer.parseInt(productPrice.getText().toString());
+                int quantity = Integer.parseInt(quantityNumber.getText().toString());
 
-                databaseHelper.addProduct(name, quantity, price);
+                //databaseHelper.addProduct(name, quantity, price);
                 /*
                 ContentValues values = new ContentValues();
                 values.put(OrderContract.OrderEntry.COLUMN_NAME,name);
@@ -88,31 +124,31 @@ public class InfoProdShopActivity extends AppCompatActivity implements LoaderMan
         });
 
 
-        plusquantity.setOnClickListener(new View.OnClickListener() {
+        plusQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                int basePrice = 99;
+                int price = productModel.getProductPrice();
                 quantity++;
                 displayQuantity();
-                int prodPrice = basePrice * quantity;
+                int prodPrice = price * quantity;
                 String newPrice = String.valueOf(prodPrice);
                 productPrice.setText(newPrice);
             }
         });
 
-        minusquantity.setOnClickListener(new View.OnClickListener() {
+        minusQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                int basePrice = 99;
+                int price = productModel.getProductPrice();
 
                 if (quantity == 0) {
                     Toast.makeText(InfoProdShopActivity.this, "Quantitiy can't go less than 0", Toast.LENGTH_SHORT).show();
                 } else {
                     quantity--;
                     displayQuantity();
-                    int prodPrice = basePrice * quantity;
+                    int prodPrice = price * quantity;
                     String newPrice = String.valueOf(prodPrice);
                     productPrice.setText(newPrice);
                 }
@@ -122,7 +158,7 @@ public class InfoProdShopActivity extends AppCompatActivity implements LoaderMan
 
     private void displayQuantity() {
 
-        quantitynumber.setText(String.valueOf(quantity));
+        quantityNumber.setText(String.valueOf(quantity));
     }
 
 
@@ -159,7 +195,7 @@ public class InfoProdShopActivity extends AppCompatActivity implements LoaderMan
 
             productName.setText(nameOfProduct);
             productPrice.setText(priceOfProduct);
-            quantitynumber.setText(quantityOfProduct);
+            quantityNumber.setText(quantityOfProduct);
         }
     }
 
@@ -167,6 +203,6 @@ public class InfoProdShopActivity extends AppCompatActivity implements LoaderMan
     public void onLoaderReset(Loader<Cursor> loader) {
         productName.setText("");
         productPrice.setText("");
-        quantitynumber.setText("");
+        quantityNumber.setText("");
     }
 }

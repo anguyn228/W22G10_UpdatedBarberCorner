@@ -5,6 +5,30 @@
       <map>
         <entry key="..\:/Code/Android/BaberShop/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Code/Android/BaberShop/app/src/main/res/layout/activity_register.xml" value="0.4" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/drawable-v24/rounded_corner.xml" value="0.2265" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/drawable-v24/rounded_corner_light_blue_2.xml" value="0.2265" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.2265" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_addand_update_user.xml" value="0.264" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_admin_dash_board.xml" value="0.25052083333333336" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_booking.xml" value="0.25416666666666665" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_full_view_gallery_img.xml" value="0.16979166666666667" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_hair_style_pics.xml" value="0.16979166666666667" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_info_prod_shop.xml" value="0.264" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_message.xml" value="0.264" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_staff_dash_board.xml" value="0.2" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_summary.xml" value="0.16979166666666667" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_update_user.xml" value="0.14583333333333334" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_user_dash_board.xml" value="0.2" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/activity_view_all_booking.xml" value="0.264" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/booking_item.xml" value="0.4" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/cartlist.xml" value="0.16979166666666667" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/fragment_select_barber_dialog.xml" value="0.11302083333333333" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/list_of_shop_products_layout.xml" value="0.16979166666666667" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/message_ui.xml" value="0.14010416666666667" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/message_ui_item.xml" value="0.25416666666666665" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/select_user_dialog.xml" value="0.25416666666666665" />
+        <entry key="..\:/Code/Android/UpdatedBarberApp1/app/src/main/res/layout/user_item.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/anguy/BarberCornerProj/app/src/main/res/drawable-v24/ic_baseline_name.xml" value="0.14739583333333334" />
         <entry key="..\:/Users/anguy/BarberCornerProj/app/src/main/res/layout/activity_main.xml" value="0.1171875" />
         <entry key="..\:/Users/anguy/BarberCornerProj/app/src/main/res/layout/activity_register.xml" value="0.12" />
@@ -15,29 +39,16 @@
         <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/font/quicksand_light.xml" value="0.178125" />
         <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/action_bar.xml" value="0.14791666666666667" />
         <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_addand_update_barber.xml" value="0.14791666666666667" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_addand_update_user.xml" value="0.1" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_admin_dash_board.xml" value="0.1" />
         <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_barber_view.xml" value="0.14791666666666667" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_booking.xml" value="0.13802083333333334" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_full_view_gallery_img.xml" value="0.13802083333333334" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_hair_style_pics.xml" value="0.13802083333333334" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_info_prod_shop.xml" value="0.13802083333333334" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_main.xml" value="0.1793478260869565" />
         <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_message.xml" value="0.13020833333333334" />
         <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_register.xml" value="0.13020833333333334" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_staff_dash_board.xml" value="0.13333333333333333" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_summary.xml" value="0.15416666666666667" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_update_user.xml" value="0.13333333333333333" />
         <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_user_dash_board.xml" value="0.14791666666666667" />
         <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_user_dash_board2.xml" value="0.264" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_user_update.xml" value="0.13333333333333333" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/activity_view_all_booking.xml" value="0.15416666666666667" />
         <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/barber_row.xml" value="0.14791666666666667" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/cartlist.xml" value="0.15416666666666667" />
         <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/fragment_select_barber_dialog.xml" value="0.14791666666666667" />
         <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/message_ui.xml" value="0.2" />
         <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/message_ui_item.xml" value="0.14791666666666667" />
-        <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/select_user_dialog.xml" value="0.15416666666666667" />
         <entry key="..\:/Users/anguy/Downloads/UpdatedBarberApp-master/app/src/main/res/layout/send_message.xml" value="0.14791666666666667" />
       </map>
     </option>

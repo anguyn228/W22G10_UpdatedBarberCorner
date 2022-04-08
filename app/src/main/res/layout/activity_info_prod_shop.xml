@@ -42,19 +42,19 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/productPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$99"
-                android:textColor="@android:color/holo_red_light"
-                android:id="@+id/productPrice"
+                android:layout_below="@+id/imageViewInfo"
                 android:layout_alignRight="@+id/productNameinInfo"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="60dp"
-                android:textStyle="bold"
+                android:text="$99"
+                android:textColor="@android:color/holo_red_light"
                 android:textSize="16sp"
-                android:layout_below="@+id/imageViewInfo"
-                android:layout_alignParentRight="true" />
+                android:textStyle="bold" />
 
 
 
@@ -109,17 +109,18 @@
                 tools:ignore="SpeakableTextPresentCheck" />
 
 
-
-
             <TextView
+                android:id="@+id/descriptioninfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_below="@+id/quantity"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/prod_one"
-                android:id="@+id/descriptioninfo"
-                android:textStyle="italic"
                 android:textSize="15sp"
-                android:layout_below="@+id/quantity"/>
+                android:textStyle="italic" />
 
 
             <Button

@@ -4,7 +4,23 @@ public class ShopHairProductModel {
 
     String productName;
     String productDetail;
+    int productPrice;
     int productPic;
+
+    public ShopHairProductModel(String productName, String productDetail, int productPrice, int productPic) {
+        this.productName = productName;
+        this.productDetail = productDetail;
+        this.productPrice = productPrice;
+        this.productPic = productPic;
+    }
+
+    public int getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(int productPrice) {
+        this.productPrice = productPrice;
+    }
 
     public
     ShopHairProductModel(String productName, String productDetail, int productPic) {

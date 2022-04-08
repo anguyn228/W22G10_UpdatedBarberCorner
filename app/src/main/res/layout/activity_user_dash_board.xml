@@ -40,7 +40,7 @@
         android:layout_marginTop="52dp"
         android:layout_marginEnd="73dp"
         android:backgroundTint="@color/design_default_color_secondary"
-        android:text="Barber"
+        android:text="All Barber"
         android:textColor="@color/white" />
 
     <Button
@@ -53,7 +53,7 @@
         android:textColor="@color/white"
         android:backgroundTint="@color/design_default_color_secondary"
         android:layout_marginEnd="81dp"
-        android:text="Button" />
+        android:text="Shop" />
 
     <Button
         android:id="@+id/btn_gallery"
@@ -64,7 +64,7 @@
         android:layout_marginTop="73dp"
         android:layout_marginEnd="83dp"
         android:backgroundTint="@color/design_default_color_secondary"
-        android:text="Button"
+        android:text="Gallery"
         android:textColor="@color/white" />
 
 </RelativeLayout>

@@ -23,30 +23,26 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     List<ShopHairProductModel> modelList;
     Context context;
 
-    public OrderAdapter(Context context,List<ShopHairProductModel> modelList) {
-
-        this.context=context;
-        this.modelList=modelList;
+    public OrderAdapter(Context context, List<ShopHairProductModel> modelList) {
+        this.context = context;
+        this.modelList = modelList;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.list_of_shop_products_layout,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.list_of_shop_products_layout, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        String nameOfProduct = modelList.get(position).getProductName();
+        String descriptionOfProduct = modelList.get(position).getProductDetail();
+        int images = modelList.get(position).getProductPic();
 
-    String nameOfProduct=modelList.get(position).getProductName();
-    String descriptionOfProduct=modelList.get(position).getProductDetail();
-    int images=modelList.get(position).getProductPic();
-
-    holder.ProductName.setText(nameOfProduct);
-    holder.ProductDescription.setText(descriptionOfProduct);
-    holder.imageView.setImageResource(images);
-
-
+        holder.ProductName.setText(nameOfProduct);
+        holder.ProductDescription.setText(descriptionOfProduct);
+        holder.imageView.setImageResource(images);
     }
 
     @Override
@@ -54,30 +50,29 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
         return modelList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView ProductName,ProductDescription;
+        TextView ProductName, ProductDescription;
         ImageView imageView;
 
         public ViewHolder(View itemView) {
             super(itemView);
-
-            ProductName=itemView.findViewById(R.id.productName);
-            ProductDescription=itemView.findViewById(R.id.description);
-            imageView=itemView.findViewById(R.id.productImage);
-
+            ProductName = itemView.findViewById(R.id.productName);
+            ProductDescription = itemView.findViewById(R.id.description);
+            imageView = itemView.findViewById(R.id.productImage);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            int position=getAdapterPosition();
-
-            if (position==0){
-                Intent intent=new Intent(context, InfoProdShopActivity.class);
-                context.startActivity(intent);
-            }
-
+            int position = getAdapterPosition();
+            Intent intent = new Intent(context, InfoProdShopActivity.class);
+            ShopHairProductModel productModel = modelList.get(position);
+            intent.putExtra(InfoProdShopActivity.TAG_PRODUCT_NAME, productModel.getProductName());
+            intent.putExtra(InfoProdShopActivity.TAG_PRODUCT_DETAIL, productModel.getProductDetail());
+            intent.putExtra(InfoProdShopActivity.TAG_PRODUCT_PRICE, productModel.getProductPrice());
+            intent.putExtra(InfoProdShopActivity.TAG_PRODUCT_IMAGE, productModel.getProductPic());
+            context.startActivity(intent);
         }
     }
 }
