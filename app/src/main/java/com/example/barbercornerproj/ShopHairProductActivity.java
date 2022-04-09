@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import com.example.barbercornerproj.adapter.OrderAdapter;
+import com.example.barbercornerproj.adapter.ProductAdapter;
 import com.example.barbercornerproj.model.ShopHairProductModel;
 
 import java.util.ArrayList;
@@ -16,12 +16,16 @@ public class ShopHairProductActivity extends AppCompatActivity {
 
     List<ShopHairProductModel> modelList;
     RecyclerView recyclerView;
-    OrderAdapter myAdapter;
+    ProductAdapter myAdapter;
+
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_hair_product);
+
+        userId = getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
 
         modelList = new ArrayList<>();
         modelList.add(new ShopHairProductModel("Hair Gel", "Shaping gel for a nourishing and strong hold",
@@ -46,7 +50,7 @@ public class ShopHairProductActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(null));
 
-        myAdapter = new OrderAdapter(this, modelList);
+        myAdapter = new ProductAdapter(this, modelList, userId);
         recyclerView.setAdapter(myAdapter);
     }
 }

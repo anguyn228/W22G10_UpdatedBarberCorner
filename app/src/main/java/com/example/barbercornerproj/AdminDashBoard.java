@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 public class AdminDashBoard extends AppCompatActivity {
 
+    private Button btnAllOrder;
     private Button btnAddBarber;
     private DatabaseHelper databaseHelper;
     private NotificationHelper notificationHelper;
@@ -22,11 +23,20 @@ public class AdminDashBoard extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_dash_board);
 
+        btnAllOrder = findViewById(R.id.btn_customer_order);
         btnAddBarber = findViewById(R.id.btn_add_barber);
         databaseHelper = new DatabaseHelper(this);
         notificationHelper = new NotificationHelper(this);
         notificationHelper.createNotificationChannel();
         checkNotify();
+
+        btnAllOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AdminDashBoard.this, ViewAllOrderActivity.class);
+                startActivity(intent);
+            }
+        });
 
         btnAddBarber.setOnClickListener(new View.OnClickListener() {
             @Override

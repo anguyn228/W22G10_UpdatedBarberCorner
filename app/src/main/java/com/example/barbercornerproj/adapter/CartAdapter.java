@@ -13,30 +13,30 @@ import com.example.barbercornerproj.R;
 
 public class CartAdapter extends CursorAdapter {
     public CartAdapter(Context context, Cursor c) {
-        super(context, c,0);
+        super(context, c, 0);
     }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
-        return LayoutInflater.from(context).inflate(R.layout.cartlist,viewGroup,false);
+        return LayoutInflater.from(context).inflate(R.layout.order_item, viewGroup, false);
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
 
-        TextView productName,price,quantity;
-        productName=view.findViewById(R.id.productNameinOrderSummary);
-        price=view.findViewById(R.id.priceinOrderSummary);
-        quantity=view.findViewById(R.id.quantityinOrderSummary);
+        TextView productName, price, quantity;
+        productName = view.findViewById(R.id.product_name);
+        price = view.findViewById(R.id.product_price);
+        quantity = view.findViewById(R.id.quantity);
 
-        int name=cursor.getColumnIndex(OrderContract.OrderEntry.COLUMN_NAME);
-        int priceOfproduct=cursor.getColumnIndex(OrderContract.OrderEntry.COLUMN_PRICE);
-        int quantityOfproduct=cursor.getColumnIndex(OrderContract.OrderEntry.COLUMN_QUANTITY);
+        int name = cursor.getColumnIndex(OrderContract.OrderEntry.COLUMN_NAME);
+        int priceOfproduct = cursor.getColumnIndex(OrderContract.OrderEntry.COLUMN_PRICE);
+        int quantityOfproduct = cursor.getColumnIndex(OrderContract.OrderEntry.COLUMN_QUANTITY);
 
-        String nameOfProduct=cursor.getString(name);
-        String priceOfProduct=cursor.getString(priceOfproduct);
-        String quantityOfProduct=cursor.getString(quantityOfproduct);
+        String nameOfProduct = cursor.getString(name);
+        String priceOfProduct = cursor.getString(priceOfproduct);
+        String quantityOfProduct = cursor.getString(quantityOfproduct);
 
 
         productName.setText(nameOfProduct);

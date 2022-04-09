@@ -9,35 +9,41 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.barbercornerproj.DatabaseHelper;
 import com.example.barbercornerproj.R;
+import com.example.barbercornerproj.model.DataModel;
 import com.example.barbercornerproj.model.OrderModel;
 
 import java.util.ArrayList;
 
-public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> {
+public class ViewAllOrderAdapter extends RecyclerView.Adapter<ViewAllOrderAdapter.ViewHolder> {
 
     private Context context;
     private ArrayList<OrderModel> orderList;
+    private DatabaseHelper databaseHelper;
 
-    public OrderAdapter(Context context, ArrayList<OrderModel> orderList) {
+    public ViewAllOrderAdapter(Context context, ArrayList<OrderModel> orderList) {
         this.context = context;
         this.orderList = orderList;
+        databaseHelper = new DatabaseHelper(context);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.order_item, null);
+        View view = inflater.inflate(R.layout.admin_order_item, null);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.txtProductName.setText(orderList.get(position).getProductName());
-        holder.txtProductPrice.setText(String.valueOf(orderList.get(position).getPrice()));
-        holder.txtQuantity.setText(String.valueOf(orderList.get(position).getQuantity()));
+        OrderModel orderModel = orderList.get(position);
+        DataModel dataModel = databaseHelper.getUserById(orderModel.getUserId());
+        holder.customerName.setText(dataModel.getUserName());
+        String orderDetail = orderModel.toString();
+        holder.orderDetail.setText(orderDetail);
     }
 
     @Override
@@ -46,12 +52,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtProductName, txtProductPrice, txtQuantity;
+        TextView customerName, orderDetail;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtProductName = itemView.findViewById(R.id.product_name);
-            txtProductPrice = itemView.findViewById(R.id.product_price);
-            txtQuantity = itemView.findViewById(R.id.quantity);
+            customerName = itemView.findViewById(R.id.txt_customer_name);
+            orderDetail = itemView.findViewById(R.id.txt_order_detail);
         }
     }
 }

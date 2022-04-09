@@ -3,8 +3,6 @@ package com.example.barbercornerproj.Database;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import com.example.barbercornerproj.adapter.OrderAdapter;
-
 public class OrderContract {
 
     public OrderContract(){

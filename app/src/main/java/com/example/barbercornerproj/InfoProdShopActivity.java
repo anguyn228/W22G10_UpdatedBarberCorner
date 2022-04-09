@@ -48,6 +48,8 @@ public class InfoProdShopActivity extends AppCompatActivity implements LoaderMan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_prod_shop);
 
+        userId = getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
+
         productModel = new ShopHairProductModel(
               getIntent().getStringExtra(TAG_PRODUCT_NAME),
               getIntent().getStringExtra(TAG_PRODUCT_DETAIL),
@@ -81,12 +83,13 @@ public class InfoProdShopActivity extends AppCompatActivity implements LoaderMan
                 intent.putExtra(TAG_PRODUCT_NAME, name);
                 intent.putExtra(TAG_PRODUCT_PRICE, price);
                 intent.putExtra(TAG_PRODUCT_QUANTITY, quantity);
+                intent.putExtra(MainActivity.TAG_USER_ID, userId);
                 startActivity(intent);
             }
 
             private void addToCart(String productName, int quantity, int totalPrice) {
                 String order = productName + "|" + String.valueOf(quantity) + "|" + String.valueOf(totalPrice);
-                SharedPreferences sharedPreferences  = InfoProdShopActivity.this.getSharedPreferences(
+                SharedPreferences sharedPreferences  = InfoProdShopActivity.this.getApplication().getSharedPreferences(
                         "shopping_cart_" + String.valueOf(userId),
                         Context.MODE_PRIVATE
                 );

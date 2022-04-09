@@ -15,6 +15,7 @@ import com.example.barbercornerproj.model.CustomerModel;
 import com.example.barbercornerproj.model.DataModel;
 import com.example.barbercornerproj.model.MessageModel;
 import com.example.barbercornerproj.model.NotifyModel;
+import com.example.barbercornerproj.model.OrderModel;
 import com.example.barbercornerproj.model.StaffModel;
 
 import java.util.ArrayList;
@@ -74,6 +75,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         public static final String COLUMN_DATETIME = "bookingDateTime";
     }
 
+    static class ORDER_TABLE {
+        public static final String NAME = "ORDER_TABLE";
+        public static final String COLUMN_ID = "orderId";
+        public static final String COLUMN_USER_ID = "userId";
+        public static final String COLUMN_PRODUCT_NAME = "productName";
+        public static final String COLUMN_PRODUCT_PRICE = "productPrice";
+        public static final String COLUMN_QUANTITY = "quantity";
+    }
+
     public DatabaseHelper(@Nullable Context context) {
         super(context, "barbershopData.db", null, 1);
     }
@@ -81,15 +91,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         //Create user table user
-        String userTable = "CREATE TABLE " + USER_TABLE + "(" + COLUMN_USER_NAME + " VARCHAR(500), " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_NAME + " TEXT, " + COLUMN_TITLE + " TEXT,"+ COLUMN_USERID + " TEXT, " + COLUMN_PASSWORD + " TEXT )";
+        String userTable = "CREATE TABLE " + USER_TABLE + "(" + COLUMN_USER_NAME + " VARCHAR(500), " + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_NAME + " TEXT, " + COLUMN_TITLE + " TEXT," + COLUMN_USERID + " TEXT, " + COLUMN_PASSWORD + " TEXT )";
         db.execSQL(userTable);
         String insertAdmin = "INSERT INTO " + USER_TABLE + "(" + COLUMN_ID + ", " + COLUMN_USER_NAME + ", " + COLUMN_PASSWORD + ", " + COLUMN_TITLE + ") " +
-                            "VALUES(" + ADMIN_USER_ID + ", 'admin', 'admin','admin')";
+                "VALUES(" + ADMIN_USER_ID + ", 'admin', 'admin','admin')";
         db.execSQL(insertAdmin);
 
         //Create staff table
         String staffTable = "CREATE TABLE " + STAFF_TABLE + "(" + COL_ID + "" +
-                " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_uID + " TEXT, " + COL_TITLE + " TEXT, " + COL_NAME + " TEXT, "  + " TEXT, " + COL_BIO + " TEXT, " + COL_SHIFT + " TEXT," + COL_LOCATION + " TEXT)" ;
+                " INTEGER PRIMARY KEY AUTOINCREMENT, " + COL_uID + " TEXT, " + COL_TITLE + " TEXT, " + COL_NAME + " TEXT, " + " TEXT, " + COL_BIO + " TEXT, " + COL_SHIFT + " TEXT," + COL_LOCATION + " TEXT)";
         db.execSQL(staffTable);
 
         //create customer table
@@ -127,12 +137,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                         COL_NOTIFY_STATUS + " TEXT)";
         db.execSQL(notifyTable);
 
-        String SQL_TABLE=" CREATE TABLE " + OrderHelper.CART_TABLE + " ("
-                + OrderHelper.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "userId INTEGER "
-                + OrderHelper.COLUMN_NAME +" TEXT NOT NULL,"
-                + OrderHelper.COLUMN_QUANTITY +" TEXT NOT NULL,"
-                + OrderHelper.COLUMN_PRICE +" TEXT NOT NULL);";
+        String SQL_TABLE = " CREATE TABLE " + ORDER_TABLE.NAME + " ("
+                + ORDER_TABLE.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ORDER_TABLE.COLUMN_USER_ID + " INTEGER, "
+                + ORDER_TABLE.COLUMN_PRODUCT_NAME + " TEXT NOT NULL,"
+                + ORDER_TABLE.COLUMN_QUANTITY + " INTEGER NOT NULL,"
+                + ORDER_TABLE.COLUMN_PRODUCT_PRICE + " INTEGER NOT NULL);";
         db.execSQL(SQL_TABLE);
 
     }
@@ -150,9 +160,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(OrderHelper.COLUMN_NAME,name);
-        values.put(OrderHelper.COLUMN_PRICE,price);
-        values.put(OrderHelper.COLUMN_QUANTITY,quantity);
+        values.put(OrderHelper.COLUMN_NAME, name);
+        values.put(OrderHelper.COLUMN_PRICE, price);
+        values.put(OrderHelper.COLUMN_QUANTITY, quantity);
 
         long insert = database.insert(OrderHelper.CART_TABLE, null, values);
         if (insert == -1) {
@@ -315,7 +325,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DataModel getUserById(int userId) {
         String query = "SELECT * FROM " + USER_TABLE + " WHERE " + COLUMN_ID + " = " + userId;
         Cursor cursor = getReadableDatabase().rawQuery(query, null);
-        if(!cursor.moveToNext()) {
+        if (!cursor.moveToNext()) {
             return null;
         }
 
@@ -365,8 +375,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase sqLiteDatabase = this.getReadableDatabase();
         String query =
                 "SELECT * FROM " + MESSAGES_TABLE +
-                " WHERE " + COL_SENDER_ID + " = " + id +
-                " OR " + COL_RECEIVE_ID + " = " + id;
+                        " WHERE " + COL_SENDER_ID + " = " + id +
+                        " OR " + COL_RECEIVE_ID + " = " + id;
         Cursor c = sqLiteDatabase.rawQuery(query, null);
 
         return cursorToMessageModel(c);
@@ -454,6 +464,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             bookingList.add(bookingModel);
         }
         return bookingList;
+    }
+
+    public void addOrder(OrderModel orderModel) {
+        String insertQuery =
+                "INSERT INTO " + ORDER_TABLE.NAME + "(" +
+                        ORDER_TABLE.COLUMN_USER_ID + ", " +
+                        ORDER_TABLE.COLUMN_PRODUCT_NAME + ", " +
+                        ORDER_TABLE.COLUMN_QUANTITY + ", " +
+                        ORDER_TABLE.COLUMN_PRODUCT_PRICE +
+                        ")" +
+                "VALUES (" +
+                        orderModel.getUserId() + ", '" +
+                        orderModel.getProductName() + "', " +
+                        orderModel.getQuantity() + ", " +
+                        orderModel.getPrice() +
+                        ")";
+        System.out.println(insertQuery);
+        getWritableDatabase().execSQL(insertQuery);
+    }
+
+    public ArrayList<OrderModel> retrieveAllOrder() {
+        ArrayList<OrderModel> orderList = new ArrayList<>();
+
+        String query = "SELECT * FROM " + ORDER_TABLE.NAME;
+        Cursor c = getReadableDatabase().rawQuery(query, null);
+
+        while (c.moveToNext()) {
+            int orderId = c.getInt(c.getColumnIndex(ORDER_TABLE.COLUMN_ID) + 0);
+            int customerId = c.getInt(c.getColumnIndex(ORDER_TABLE.COLUMN_USER_ID) + 0);
+            String productName = c.getString(c.getColumnIndex(ORDER_TABLE.COLUMN_PRODUCT_NAME) + 0);
+            int productPrice = c.getInt(c.getColumnIndex(ORDER_TABLE.COLUMN_PRODUCT_PRICE) + 0);
+            int productQuantity = c.getInt(c.getColumnIndex(ORDER_TABLE.COLUMN_QUANTITY) + 0);
+            OrderModel orderModel = new OrderModel(orderId, customerId, productName, productQuantity, productPrice);
+            orderList.add(orderModel);
+        }
+        return orderList;
     }
 
     public boolean addNotify(NotifyModel notify) {
