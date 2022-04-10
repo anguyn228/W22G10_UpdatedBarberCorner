@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class UserDashBoard extends AppCompatActivity {
 
-    private Button btnBook, btnMessage, btnViewBarber, btnShopCart, btnGallery, btnRating, btnAllOrder;
+    private Button btnBook, btnMessage, btnViewBarber, btnShopCart, btnGallery, btnRating, btnAllOrder, btnViewBooking;
     private int userId;
 
     @Override
@@ -24,6 +24,7 @@ public class UserDashBoard extends AppCompatActivity {
         btnGallery = findViewById(R.id.btn_gallery);
         btnRating  = findViewById(R.id.btn_rating);
         btnAllOrder = findViewById(R.id.btn_all_order);
+        btnViewBooking = findViewById(R.id.btn_all_booking);
 
         userId = getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
         System.out.println("USER DASHBOARD ID: " + userId);
@@ -50,6 +51,15 @@ public class UserDashBoard extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserDashBoard.this, BarberViewActivity.class);
+                intent.putExtra(MainActivity.TAG_USER_ID, userId);
+                startActivity(intent);
+            }
+        });
+
+        btnViewBooking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserDashBoard.this, ViewAllBookingActivity.class);
                 intent.putExtra(MainActivity.TAG_USER_ID, userId);
                 startActivity(intent);
             }
