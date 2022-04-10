@@ -84,4 +84,15 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"/>
 
+    <Button
+        android:id="@+id/btn_all_booking"
+        android:layout_width="269dp"
+        android:layout_height="59dp"
+        android:layout_below="@id/btn_all_order"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="All Booking"
+        android:textColor="@color/white" />
+
 </RelativeLayout>
