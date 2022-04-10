@@ -12,9 +12,8 @@
         android:layout_width="261dp"
         android:layout_height="59dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="57dp"
-        android:layout_marginEnd="73dp"
+        android:layout_marginTop="80dp"
+        android:layout_centerHorizontal="true"
         android:backgroundTint="@color/design_default_color_secondary"
         android:text="Booking"
         android:textColor="@color/white" />
@@ -24,9 +23,8 @@
         android:layout_width="261dp"
         android:layout_height="59dp"
         android:layout_below="@+id/btn_book"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="73dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:text="Message"
         android:backgroundTint="@color/design_default_color_secondary"
         android:textColor="@color/white" />
@@ -36,9 +34,8 @@
         android:layout_width="261dp"
         android:layout_height="59dp"
         android:layout_below="@+id/btn_message"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="73dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/design_default_color_secondary"
         android:text="All Barber"
         android:textColor="@color/white" />
@@ -48,11 +45,10 @@
         android:layout_width="261dp"
         android:layout_height="59dp"
         android:layout_below="@+id/btn_view_barber"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="59dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:textColor="@color/white"
         android:backgroundTint="@color/design_default_color_secondary"
-        android:layout_marginEnd="81dp"
         android:text="Shop" />
 
     <Button
@@ -60,11 +56,32 @@
         android:layout_width="269dp"
         android:layout_height="59dp"
         android:layout_below="@+id/btn_shop"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="73dp"
-        android:layout_marginEnd="83dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
         android:backgroundTint="@color/design_default_color_secondary"
         android:text="Gallery"
         android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btn_rating"
+        android:layout_below="@id/btn_gallery"
+        android:layout_width="269dp"
+        android:layout_height="59dp"
+        android:textColor="@color/white"
+        android:text="Rating"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        android:id="@+id/btn_all_order"
+        android:layout_below="@id/btn_gallery"
+        android:layout_width="269dp"
+        android:layout_height="59dp"
+        android:textColor="@color/white"
+        android:text="All Order"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
 
 </RelativeLayout>

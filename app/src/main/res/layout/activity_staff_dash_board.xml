@@ -12,9 +12,8 @@
         android:layout_width="252dp"
         android:layout_height="48dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
         android:layout_marginTop="175dp"
-        android:layout_marginEnd="79dp"
+        android:layout_centerHorizontal="true"
         android:backgroundTint="@color/design_default_color_secondary"
         android:text="Message"
         android:textColor="@color/white" />
@@ -24,11 +23,21 @@
         android:layout_width="252dp"
         android:layout_height="48dp"
         android:layout_below="@+id/btn_message"
-        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="55dp"
-        android:layout_marginEnd="79dp"
         android:backgroundTint="@color/design_default_color_secondary"
         android:text="Booking"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btn_rating_view"
+        android:layout_width="252dp"
+        android:layout_height="48dp"
+        android:layout_below="@+id/btn_booking"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:text="All Review"
         android:textColor="@color/white" />
 
 </RelativeLayout>

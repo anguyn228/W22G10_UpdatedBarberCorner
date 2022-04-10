@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class UserDashBoard extends AppCompatActivity {
 
-    private Button btnBook, btnMessage, btnViewBarber, btnShopCart, btnGallery;
+    private Button btnBook, btnMessage, btnViewBarber, btnShopCart, btnGallery, btnRating, btnAllOrder;
     private int userId;
 
     @Override
@@ -22,6 +22,8 @@ public class UserDashBoard extends AppCompatActivity {
         btnViewBarber = findViewById(R.id.btn_view_barber);
         btnShopCart = findViewById(R.id.btn_shop);
         btnGallery = findViewById(R.id.btn_gallery);
+        btnRating  = findViewById(R.id.btn_rating);
+        btnAllOrder = findViewById(R.id.btn_all_order);
 
         userId = getIntent().getIntExtra(MainActivity.TAG_USER_ID, 0);
         System.out.println("USER DASHBOARD ID: " + userId);
@@ -66,6 +68,24 @@ public class UserDashBoard extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(UserDashBoard.this, ShopHairProductActivity.class);
+                intent.putExtra(MainActivity.TAG_USER_ID, userId);
+                startActivity(intent);
+            }
+        });
+        
+        btnRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserDashBoard.this, RatingFeature.class);
+                intent.putExtra(MainActivity.TAG_USER_ID, userId);
+                startActivity(intent);
+            }
+        });
+
+        btnAllOrder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserDashBoard.this, CustomerViewOrderActivity.class);
                 intent.putExtra(MainActivity.TAG_USER_ID, userId);
                 startActivity(intent);
             }

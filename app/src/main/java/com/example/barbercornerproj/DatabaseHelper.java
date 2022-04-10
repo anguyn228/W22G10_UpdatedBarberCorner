@@ -16,6 +16,7 @@ import com.example.barbercornerproj.model.DataModel;
 import com.example.barbercornerproj.model.MessageModel;
 import com.example.barbercornerproj.model.NotifyModel;
 import com.example.barbercornerproj.model.OrderModel;
+import com.example.barbercornerproj.model.RatingModel;
 import com.example.barbercornerproj.model.StaffModel;
 
 import java.util.ArrayList;
@@ -65,6 +66,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String STATUS_SENT = "Sent";
 
     public static final int ADMIN_USER_ID = 1;
+
+    //Rating Table
+    public static final String RATING_TABLE = "RATING_TABLE";
+    public static final String COL_RATING_ID = "ratingId";
+    public static final String COL_CUSID = "cusId";
+    public static final String COL_BARID = "barId";
+    public static final String COL_COMMENT = "comment";
+    public static final String COL_RATING = "rating";
 
     //  Booking Table
     static class BOOKING_TABLE {
@@ -145,6 +154,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + ORDER_TABLE.COLUMN_PRODUCT_PRICE + " INTEGER NOT NULL);";
         db.execSQL(SQL_TABLE);
 
+        //Create rating table
+        String ratingTable = " CREATE TABLE " + RATING_TABLE + "(" +
+                COL_RATING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                COL_RATING + " TEXT," +
+                COL_COMMENT + " TEXT," +
+                COL_BARID + " INTEGER," +
+                COL_CUSID + " INTEGER)";
+        db.execSQL(ratingTable);
     }
 
     @Override
@@ -235,6 +252,54 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             return true;
         }
+    }
+
+    public boolean addReview(RatingModel ratingModel){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COL_RATING, ratingModel.getRating());
+        cv.put(COL_COMMENT, ratingModel.getComment());
+        cv.put(COL_BARID, ratingModel.getBarberId());
+        cv.put(COL_CUSID, ratingModel.getCusId());
+        long insert = db.insert(RATING_TABLE, null, cv);
+        if (insert == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public ArrayList<RatingModel> retrieveReviewFromBarberId(int barberId){
+        ArrayList<RatingModel> ratingList = new ArrayList<>();
+
+        String query = "SELECT * FROM " + RATING_TABLE+ " WHERE " + COL_BARID + " = " + barberId;
+        Cursor c = getReadableDatabase().rawQuery(query, null);
+        while (c.moveToNext()) {
+            int ratingId = c.getInt(c.getColumnIndex(COL_RATING_ID) + 0);
+            int cusId = c.getInt(c.getColumnIndex(COL_CUSID) + 0);
+            int rating = c.getInt(c.getColumnIndex(COL_RATING) + 0);
+            String comment = c.getString(c.getColumnIndex(COL_COMMENT) + 0);
+            RatingModel ratingModel = new RatingModel(ratingId, barberId, cusId, rating, comment);
+            ratingList.add(ratingModel);
+        }
+        return ratingList;
+    }
+
+    public ArrayList<RatingModel> retrieveReviewFromCustomerId(int cusId){
+        ArrayList<RatingModel> ratingList = new ArrayList<>();
+
+        String query = "SELECT * FROM" + RATING_TABLE+ " WHERE " + COL_CUSID + " = " + cusId;
+        Cursor c = getReadableDatabase().rawQuery(query, null);
+        while (c.moveToNext()) {
+            int ratingId = c.getInt(c.getColumnIndex(COL_RATING_ID) + 0);
+            int barId = c.getInt(c.getColumnIndex(COL_BARID) + 0);
+            int rating = c.getInt(c.getColumnIndex(COL_RATING) + 0);
+            String comment = c.getString(c.getColumnIndex(COL_COMMENT) + 0);
+            RatingModel ratingModel = new RatingModel(ratingId, cusId, barId, rating, comment);
+            ratingList.add(ratingModel);
+        }
+        return ratingList;
     }
 
     public ArrayList<StaffModel> allStaffs() {
@@ -488,6 +553,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<OrderModel> orderList = new ArrayList<>();
 
         String query = "SELECT * FROM " + ORDER_TABLE.NAME;
+        Cursor c = getReadableDatabase().rawQuery(query, null);
+
+        while (c.moveToNext()) {
+            int orderId = c.getInt(c.getColumnIndex(ORDER_TABLE.COLUMN_ID) + 0);
+            int customerId = c.getInt(c.getColumnIndex(ORDER_TABLE.COLUMN_USER_ID) + 0);
+            String productName = c.getString(c.getColumnIndex(ORDER_TABLE.COLUMN_PRODUCT_NAME) + 0);
+            int productPrice = c.getInt(c.getColumnIndex(ORDER_TABLE.COLUMN_PRODUCT_PRICE) + 0);
+            int productQuantity = c.getInt(c.getColumnIndex(ORDER_TABLE.COLUMN_QUANTITY) + 0);
+            OrderModel orderModel = new OrderModel(orderId, customerId, productName, productQuantity, productPrice);
+            orderList.add(orderModel);
+        }
+        return orderList;
+    }
+
+    public ArrayList<OrderModel> retrieveAllOrderByUserId(int userId) {
+        ArrayList<OrderModel> orderList = new ArrayList<>();
+
+        String query = "SELECT * FROM " + ORDER_TABLE.NAME + " WHERE " + ORDER_TABLE.COLUMN_USER_ID + " = " + userId;
         Cursor c = getReadableDatabase().rawQuery(query, null);
 
         while (c.moveToNext()) {

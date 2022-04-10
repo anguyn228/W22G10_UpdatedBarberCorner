@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewAllOrderActivity">
+
+    <include
+        android:id="@+id/action_bar"
+        layout="@layout/action_bar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/action_bar"
+        android:paddingHorizontal="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/circulastd_bold"
+            android:text="All Order"
+            android:textSize="30sp"
+            android:textColor="#3c5063"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/header"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/rec_all_order"
+            android:layout_below="@id/header"
+            android:layout_marginTop="30dp"
+            android:scrollbars="vertical"/>
+    </RelativeLayout>
+
+</RelativeLayout>

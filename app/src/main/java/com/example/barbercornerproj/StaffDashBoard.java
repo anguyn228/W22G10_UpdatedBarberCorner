@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class StaffDashBoard extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
-    private Button btnBooking, btnMessage;
+    private Button btnBooking, btnMessage, btnAllRating;
     private int userId;
     private NotificationHelper notificationHelper;
 
@@ -30,7 +30,7 @@ public class StaffDashBoard extends AppCompatActivity {
 
         btnBooking = findViewById(R.id.btn_booking);
         btnMessage = findViewById(R.id.btn_message);
-
+        btnAllRating = findViewById(R.id.btn_rating_view);
 
         btnMessage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +45,15 @@ public class StaffDashBoard extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(StaffDashBoard.this, ViewAllBookingActivity.class);
+                intent.putExtra(MainActivity.TAG_USER_ID, userId);
+                startActivity(intent);
+            }
+        });
+
+        btnAllRating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(StaffDashBoard.this, ViewCusReview.class);
                 intent.putExtra(MainActivity.TAG_USER_ID, userId);
                 startActivity(intent);
             }

@@ -76,7 +76,6 @@ public class SummaryActivity extends AppCompatActivity implements LoaderManager.
         recAllOrder.setLayoutManager(new LinearLayoutManager(this));
 
 
-
         btnOrder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
